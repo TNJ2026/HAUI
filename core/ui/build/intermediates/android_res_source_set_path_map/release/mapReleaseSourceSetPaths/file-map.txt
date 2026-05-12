@@ -1,9 +1,0 @@
-ai.tnj.haui.core.ui-pngs-0 /Users/cxd/Documents/Dev/Gemini/HAUI/core/ui/build/generated/res/pngs/release
-ai.tnj.haui.core.ui-updated_navigation_xml-1 /Users/cxd/Documents/Dev/Gemini/HAUI/core/ui/build/generated/updated_navigation_xml/release
-ai.tnj.haui.core.ui-mergeReleaseResources-2 /Users/cxd/Documents/Dev/Gemini/HAUI/core/ui/build/intermediates/incremental/release/mergeReleaseResources/merged.dir
-ai.tnj.haui.core.ui-mergeReleaseResources-3 /Users/cxd/Documents/Dev/Gemini/HAUI/core/ui/build/intermediates/incremental/release/mergeReleaseResources/stripped.dir
-ai.tnj.haui.core.ui-release-4 /Users/cxd/Documents/Dev/Gemini/HAUI/core/ui/build/intermediates/merged_res/release/mergeReleaseResources
-ai.tnj.haui.core.ui-release-5 /Users/cxd/Documents/Dev/Gemini/HAUI/core/ui/build/intermediates/packaged_res/release/packageReleaseResources
-ai.tnj.haui.core.ui-main-6 /Users/cxd/Documents/Dev/Gemini/HAUI/core/ui/src/main/res
-ai.tnj.haui.core.ui-release-7 /Users/cxd/Documents/Dev/Gemini/HAUI/core/ui/src/release/res
-gradleHome-0 /Users/cxd/.gradle
