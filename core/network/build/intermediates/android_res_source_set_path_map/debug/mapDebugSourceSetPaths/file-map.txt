@@ -1,9 +1,0 @@
-ai.tnj.haui.core.network-pngs-0 /Users/cxd/Documents/Dev/Gemini/HAUI/core/network/build/generated/res/pngs/debug
-ai.tnj.haui.core.network-updated_navigation_xml-1 /Users/cxd/Documents/Dev/Gemini/HAUI/core/network/build/generated/updated_navigation_xml/debug
-ai.tnj.haui.core.network-mergeDebugResources-2 /Users/cxd/Documents/Dev/Gemini/HAUI/core/network/build/intermediates/incremental/debug/mergeDebugResources/merged.dir
-ai.tnj.haui.core.network-mergeDebugResources-3 /Users/cxd/Documents/Dev/Gemini/HAUI/core/network/build/intermediates/incremental/debug/mergeDebugResources/stripped.dir
-ai.tnj.haui.core.network-debug-4 /Users/cxd/Documents/Dev/Gemini/HAUI/core/network/build/intermediates/merged_res/debug/mergeDebugResources
-ai.tnj.haui.core.network-debug-5 /Users/cxd/Documents/Dev/Gemini/HAUI/core/network/build/intermediates/packaged_res/debug/packageDebugResources
-ai.tnj.haui.core.network-debug-6 /Users/cxd/Documents/Dev/Gemini/HAUI/core/network/src/debug/res
-ai.tnj.haui.core.network-main-7 /Users/cxd/Documents/Dev/Gemini/HAUI/core/network/src/main/res
-gradleHome-0 /Users/cxd/.gradle
