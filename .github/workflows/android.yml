@@ -22,7 +22,7 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
-      - run：ls /usr/local/lib/android/sdk/build-tools/
+      - run: ls /usr/local/lib/android/sdk/build-tools/
       - uses: gradle/gradle-build-action@v2
         with:
           gradle-version: current
