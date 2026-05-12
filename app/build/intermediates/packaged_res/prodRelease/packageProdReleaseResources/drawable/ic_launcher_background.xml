@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Style 01 "Bordered Monogram" foreground: serif H + hairline inner border +
+  corner ticks. The bitmap fills the entire 108dp adaptive canvas (not just the
+  66dp safe zone) because the design places the border and ticks at the icon's
+  visible edges; the launcher mask (square/squircle/circle) clips them as the
+  source design intends.
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item >
+        <bitmap
+            android:src="@drawable/ic_launcher_bg"
+            android:gravity="center" />
+    </item>
+
+</layer-list>
+

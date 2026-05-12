@@ -1,0 +1,6 @@
+-keep,allowobfuscation,allowshrinking class ai.tnj.haui.feature.home.ui.agent.AgentViewModel
+-keep,allowobfuscation,allowshrinking class ai.tnj.haui.feature.home.ui.agent.AgentViewModel
+-keep,allowobfuscation,allowshrinking class ai.tnj.haui.feature.home.ui.chat.ChatViewModel
+-keep,allowobfuscation,allowshrinking class ai.tnj.haui.feature.home.ui.chat.ChatViewModel
+-keep,allowobfuscation,allowshrinking class ai.tnj.haui.feature.home.ui.settings.SettingsViewModel
+-keep,allowobfuscation,allowshrinking class ai.tnj.haui.feature.home.ui.settings.SettingsViewModel

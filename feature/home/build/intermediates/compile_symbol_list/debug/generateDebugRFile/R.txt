@@ -1,0 +1,3 @@
+int drawable ic_hermes_agent 0x0
+int drawable ic_network_intel_node 0x0
+int drawable ic_network_intelligence 0x0

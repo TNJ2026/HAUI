@@ -1,0 +1,5 @@
+R_DEF: Internal format may change without notice
+local
+drawable ic_hermes_agent
+drawable ic_network_intel_node
+drawable ic_network_intelligence

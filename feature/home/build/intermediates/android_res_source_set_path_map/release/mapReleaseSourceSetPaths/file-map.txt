@@ -1,0 +1,9 @@
+ai.tnj.huai.feature.home-pngs-0 /Users/cxd/Documents/Dev/Gemini/HAUI/feature/home/build/generated/res/pngs/release
+ai.tnj.huai.feature.home-updated_navigation_xml-1 /Users/cxd/Documents/Dev/Gemini/HAUI/feature/home/build/generated/updated_navigation_xml/release
+ai.tnj.huai.feature.home-mergeReleaseResources-2 /Users/cxd/Documents/Dev/Gemini/HAUI/feature/home/build/intermediates/incremental/release/mergeReleaseResources/merged.dir
+ai.tnj.huai.feature.home-mergeReleaseResources-3 /Users/cxd/Documents/Dev/Gemini/HAUI/feature/home/build/intermediates/incremental/release/mergeReleaseResources/stripped.dir
+ai.tnj.huai.feature.home-release-4 /Users/cxd/Documents/Dev/Gemini/HAUI/feature/home/build/intermediates/merged_res/release/mergeReleaseResources
+ai.tnj.huai.feature.home-release-5 /Users/cxd/Documents/Dev/Gemini/HAUI/feature/home/build/intermediates/packaged_res/release/packageReleaseResources
+ai.tnj.huai.feature.home-main-6 /Users/cxd/Documents/Dev/Gemini/HAUI/feature/home/src/main/res
+ai.tnj.huai.feature.home-release-7 /Users/cxd/Documents/Dev/Gemini/HAUI/feature/home/src/release/res
+gradleHome-0 /Users/cxd/.gradle
