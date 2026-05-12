@@ -17,3 +17,4 @@ app/build/
 docs/
 design/
 .idea/
+**/build/
