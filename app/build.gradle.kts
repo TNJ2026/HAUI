@@ -23,22 +23,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("debug") // Using debug key for now, update for actual release
         }
         debug {
             isMinifyEnabled = false
-        }
-    }
-
-    flavorDimensions += "version"
-    productFlavors {
-        create("dev") {
-            dimension = "version"
-            applicationIdSuffix = ".dev"
-            versionNameSuffix = "-dev"
-        }
-        create("prod") {
-            dimension = "version"
         }
     }
 
