@@ -23,7 +23,7 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
-      - run: echo "Latest Tag: ${{ steps.get-latest-tag.outputs.tag }}"
+      - run: echo ${{ steps.get-latest-tag.outputs.tag }}
       - uses: gradle/gradle-build-action@v2
         with:
           gradle-version: current
