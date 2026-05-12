@@ -36,7 +36,7 @@ jobs:
           keyStorePassword: ${{ secrets.SIGNING_STORE_PASSWORD }}
           keyPassword: ${{ secrets.SIGNING_KEY_PASSWORD }}
         env:
-          BUILD_TOOLS_VERSION: ${{ env.BUILD_TOOL_VERSION }}
+          BUILD_TOOLS_VERSION: 37.0.0
       - run: mv ${{steps.sign_app.outputs.signedReleaseFile}} HAUI_$GITHUB_REF_NAME.apk
       - uses: ncipollo/release-action@v1
         with:
