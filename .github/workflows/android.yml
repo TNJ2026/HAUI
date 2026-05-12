@@ -3,7 +3,7 @@ name: Android CI
 on:
   push:
     tags:
-      - "*"
+      - "v*"
   workflow_dispatch:
     inputs:
       logLevel:
@@ -18,6 +18,12 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v3
+      - name: Get latest tag
+        id: get-latest-tag
+        uses: actions-ecosystem/action-get-latest-tag@v1
+      - name: Use tag
+      run: |
+      echo "Latest Tag: ${{ steps.get-latest-tag.outputs.tag }}"
       - uses: actions/setup-java@v3
         with:
           distribution: temurin
