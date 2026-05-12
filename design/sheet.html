@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TERMINAL_OS_v1.0 - Agent Status</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #051424;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #64e9d1;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#bec6e0",
+                        "on-error-container": "#ffdad6",
+                        "surface-variant": "#273647",
+                        "on-secondary-container": "#adb4ce",
+                        "outline": "#86948f",
+                        "surface-container-low": "#0d1c2d",
+                        "surface-container-high": "#1c2b3c",
+                        "surface-container": "#122131",
+                        "secondary": "#bec6e0",
+                        "on-error": "#690005",
+                        "on-primary-fixed-variant": "#005046",
+                        "on-primary-fixed": "#00201b",
+                        "surface-bright": "#2c3a4c",
+                        "secondary-fixed": "#dae2fd",
+                        "inverse-primary": "#006b5d",
+                        "surface-dim": "#051424",
+                        "tertiary": "#ebf0ff",
+                        "on-secondary-fixed-variant": "#3f465c",
+                        "primary-container": "#64e9d1",
+                        "on-surface": "#d4e4fa",
+                        "on-tertiary": "#263143",
+                        "inverse-on-surface": "#233143",
+                        "tertiary-fixed": "#d8e3fb",
+                        "on-tertiary-fixed": "#111c2d",
+                        "primary": "#b2ffee",
+                        "surface-container-highest": "#273647",
+                        "on-tertiary-container": "#505b70",
+                        "on-surface-variant": "#bbcac5",
+                        "tertiary-fixed-dim": "#bcc7de",
+                        "primary-fixed": "#74f8e0",
+                        "on-primary-container": "#00675a",
+                        "surface": "#051424",
+                        "inverse-surface": "#d4e4fa",
+                        "tertiary-container": "#c9d4ec",
+                        "on-primary": "#00372f",
+                        "outline-variant": "#3c4946",
+                        "background": "#051424",
+                        "surface-tint": "#54dbc4",
+                        "primary-fixed-dim": "#54dbc4",
+                        "on-secondary": "#283044",
+                        "on-tertiary-fixed-variant": "#3c475a",
+                        "on-background": "#d4e4fa",
+                        "error-container": "#93000a",
+                        "surface-container-lowest": "#010f1f",
+                        "on-secondary-fixed": "#131b2e",
+                        "secondary-container": "#3f465c",
+                        "error": "#ffb4ab"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "48px",
+                        "xs": "4px",
+                        "margin": "32px",
+                        "lg": "24px",
+                        "unit": "4px",
+                        "sm": "8px",
+                        "md": "16px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Space Grotesk"],
+                        "body-sm": ["Space Grotesk"],
+                        "body-md": ["Space Grotesk"],
+                        "label-caps": ["Space Grotesk"],
+                        "code": ["Space Grotesk"],
+                        "headline-sm": ["Space Grotesk"],
+                        "headline-lg": ["Space Grotesk"],
+                        "body-lg": ["Space Grotesk"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                        "code": ["14px", {"lineHeight": "1.5", "fontWeight": "500"}],
+                        "headline-sm": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "headline-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md overflow-hidden h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center w-full px-4 h-14 border-b border-slate-800 bg-slate-950 sticky top-0 z-40">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#64e9d1]" data-icon="terminal">terminal</span>
+<h1 class="font-['Space_Grotesk'] tracking-widest uppercase text-xs text-[#64e9d1]">TERMINAL_OS_v1.0</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="transition-colors duration-100 ease-in-out hover:bg-[#64e9d1]/10 hover:text-[#64e9d1] p-2 text-slate-500">
+<span class="material-symbols-outlined" data-icon="settings_input_component">settings_input_component</span>
+</button>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden relative">
+<!-- NavigationDrawer -->
+<aside class="w-64 h-full hidden md:flex flex-col border-r border-slate-800 bg-slate-950">
+<div class="p-4 border-b border-slate-800/50">
+<span class="text-[#64e9d1] font-bold font-['Space_Grotesk'] uppercase text-sm">CORE_MENU_v1.0</span>
+</div>
+<nav class="flex-1 py-4">
+<a class="flex items-center gap-3 bg-[#64e9d1]/10 text-[#64e9d1] border-l-4 border-[#64e9d1] px-4 py-3 transition-all duration-75 font-['Space_Grotesk'] uppercase text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+                    System Overview
+                </a>
+<a class="flex items-center gap-3 text-slate-400 px-4 py-3 border-l-4 border-transparent hover:bg-slate-900 hover:text-[#64e9d1] transition-all duration-75 font-['Space_Grotesk'] uppercase text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="dns">dns</span>
+                    Agent Clusters
+                </a>
+<a class="flex items-center gap-3 text-slate-400 px-4 py-3 border-l-4 border-transparent hover:bg-slate-900 hover:text-[#64e9d1] transition-all duration-75 font-['Space_Grotesk'] uppercase text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="lan">lan</span>
+                    Network Traffic
+                </a>
+<a class="flex items-center gap-3 text-slate-400 px-4 py-3 border-l-4 border-transparent hover:bg-slate-900 hover:text-[#64e9d1] transition-all duration-75 font-['Space_Grotesk'] uppercase text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="lock">lock</span>
+                    Security Vault
+                </a>
+<a class="flex items-center gap-3 text-slate-400 px-4 py-3 border-l-4 border-transparent hover:bg-slate-900 hover:text-[#64e9d1] transition-all duration-75 font-['Space_Grotesk'] uppercase text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="key">key</span>
+                    API Access
+                </a>
+</nav>
+</aside>
+<!-- Main Content (Dimmed Background) -->
+<main class="flex-1 overflow-y-auto p-gutter relative blur-sm brightness-50 pointer-events-none">
+<div class="max-w-[1280px] mx-auto space-y-lg">
+<header class="flex justify-between items-end">
+<div>
+<span class="text-label-caps font-label-caps text-primary uppercase mb-xs block">Diagnostic Stream</span>
+<h2 class="text-headline-md font-headline-md text-on-surface">AGENT_DELTA_9</h2>
+</div>
+<div class="flex gap-sm">
+<div class="flex items-center gap-xs px-md py-xs bg-surface-container border border-outline-variant">
+<div class="w-1 h-1 bg-primary"></div>
+<span class="text-label-caps font-label-caps">ACTIVE</span>
+</div>
+</div>
+</header>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Large Data Card -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container border border-outline-variant p-md">
+<div class="flex justify-between items-center mb-md border-b border-outline-variant pb-sm">
+<span class="text-label-caps font-label-caps text-primary">REAL-TIME_TELEMETRY</span>
+<span class="text-label-caps font-label-caps text-slate-500">REFRESH_RATE: 200MS</span>
+</div>
+<div class="h-[300px] w-full bg-slate-950 relative overflow-hidden flex items-center justify-center">
+<img alt="Telemetric visualization" class="absolute inset-0 w-full h-full object-cover opacity-60" data-alt="A highly complex technical user interface showing real-time data visualization with glowing cyan waveforms, circular node diagrams, and scrolling hexadecimal code. The aesthetic is ultra-modern and professional, set against a dark blue background with sharp neon accents. The lighting is low-key, emphasizing the digital glow of the interface components in a dark command center atmosphere." src="https://lh3.googleusercontent.com/aida/ADBb0uidGmnSPAxcAcj7UW3j6pD5AASmuBkWsDWFBWac0BZRymjYu0Ecj6AD2NlhKFGSkv-KBgJ5uisE4oX5DcLL2f3lZ2lb7rIF3xIYIfqtS42DUduP_0BgTzzw4_IlNGISO0tpjBzgcvnNUgJhZXrxb3HZeH1iYsXAr_V49DMqQBc_LIm8T1R3FOD92enBkJymhYtPc7Ml46LKkIKYuJj3XNJ9QTgoLCWUB-vzDCYJ_tFFxxP-SUsQg1SOKV-3HkUPdSFCEkz5uAYnuQ"/>
+<div class="relative z-10 flex flex-col items-center">
+<span class="text-headline-lg font-headline-lg text-[#64e9d1]">98.4%</span>
+<span class="text-label-caps font-label-caps text-slate-400">OPTIMIZATION_LEVEL</span>
+</div>
+</div>
+</div>
+<!-- Side Stats -->
+<div class="col-span-12 lg:col-span-4 space-y-gutter">
+<div class="bg-surface-container border border-outline-variant p-md">
+<span class="text-label-caps font-label-caps text-slate-400 mb-sm block">NODE_UPTIME</span>
+<div class="text-headline-sm font-headline-sm text-on-surface">142:22:18:04</div>
+</div>
+<div class="bg-surface-container border border-outline-variant p-md">
+<span class="text-label-caps font-label-caps text-slate-400 mb-sm block">THROUGHPUT</span>
+<div class="text-headline-sm font-headline-sm text-on-surface">8.4 GB/S</div>
+<div class="w-full bg-slate-800 h-1 mt-md">
+<div class="bg-[#64e9d1] h-full w-[75%]"></div>
+</div>
+</div>
+</div>
+<!-- Logs Table -->
+<div class="col-span-12 bg-surface-container border border-outline-variant">
+<div class="px-md py-sm bg-surface-container-high border-b border-outline-variant">
+<span class="text-label-caps font-label-caps text-primary">SYSTEM_LOGS</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low">
+<tr>
+<th class="p-md text-label-caps font-label-caps text-slate-400">TIMESTAMP</th>
+<th class="p-md text-label-caps font-label-caps text-slate-400">EVENT_ID</th>
+<th class="p-md text-label-caps font-label-caps text-slate-400">STATUS</th>
+<th class="p-md text-label-caps font-label-caps text-slate-400">ENCRYPTION</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/30 font-code text-sm">
+<tr>
+<td class="p-md text-slate-300">2024.05.24 14:02:11</td>
+<td class="p-md text-[#64e9d1]">0xFD291A</td>
+<td class="p-md flex items-center gap-2"><div class="w-1 h-1 bg-[#64e9d1]"></div> VALID</td>
+<td class="p-md text-slate-500">AES-256</td>
+</tr>
+<tr>
+<td class="p-md text-slate-300">2024.05.24 14:02:08</td>
+<td class="p-md text-[#64e9d1]">0xFD2919</td>
+<td class="p-md flex items-center gap-2"><div class="w-1 h-1 bg-[#64e9d1]"></div> VALID</td>
+<td class="p-md text-slate-500">AES-256</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Sheet Overlay -->
+<div class="fixed inset-0 bg-slate-950/40 backdrop-blur-sm z-50 flex flex-col justify-end">
+<div class="bg-slate-900 border-t border-[#64e9d1]/30 w-full max-h-[60%] overflow-hidden flex flex-col shadow-2xl overflow-y-auto">
+<!-- Handle -->
+<div class="flex justify-center p-3">
+<div class="w-12 h-1 bg-slate-700 rounded-full"></div>
+</div>
+<div class="px-gutter pt-md max-w-2xl mx-auto w-full pb-32">
+<header class="mb-lg border-b border-[#64e9d1]/10 pb-sm">
+<h3 class="font-headline-sm text-headline-sm text-[#64e9d1] tracking-widest uppercase">CONNECTION</h3>
+</header>
+<form class="space-y-md">
+<div class="space-y-sm">
+<label class="font-label-caps text-label-caps text-slate-400 uppercase block">IP_ADDRESS</label>
+<input class="w-full bg-slate-950 border border-slate-800 focus:border-[#64e9d1] focus:ring-0 text-[#64e9d1] font-code py-3 px-md outline-none transition-colors duration-200" type="text" value="192.168.1.12"/>
+</div>
+<div class="space-y-sm">
+<label class="font-label-caps text-label-caps text-slate-400 uppercase block">PORT</label>
+<input class="w-full bg-slate-950 border border-slate-800 focus:border-[#64e9d1] focus:ring-0 text-[#64e9d1] font-code py-3 px-md outline-none transition-colors duration-200" type="text" value="8464"/>
+</div>
+<div class="space-y-sm">
+<label class="font-label-caps text-label-caps text-slate-400 uppercase block">API_KEY</label>
+<input class="w-full bg-slate-950 border border-slate-800 focus:border-[#64e9d1] focus:ring-0 text-[#64e9d1] font-code py-3 px-md outline-none transition-colors duration-200 placeholder:text-slate-700" placeholder="(OPTIONAL)" type="text"/>
+</div>
+<div class="pt-md">
+<button class="w-full font-label-caps text-label-caps py-4 font-bold tracking-widest hover:brightness-110 active:opacity-90 transition-all uppercase border border-[#64e9d1] bg-transparent text-[#64e9d1]" type="submit">
+                                CONNECT
+                            </button>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+<!-- BottomNavBar (Visible on Mobile) -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center h-16 border-t border-[#1e293b] z-50 bg-[#0f172a] font-['Space_Grotesk'] text-[10px] uppercase font-bold tracking-widest">
+<!-- AGENT (Active) -->
+<button class="flex flex-col items-center justify-center text-[#64e9d1] bg-[#64e9d1]/10 border-t-2 border-[#64e9d1] w-full h-full active:opacity-80 transition-all">
+<span class="material-symbols-outlined text-[24px] mb-1">smart_toy</span>
+<span class="">AGENT</span>
+</button>
+<!-- CHAT -->
+<button class="flex flex-col items-center justify-center text-[#475569] w-full h-full hover:text-[#64e9d1] active:opacity-80 transition-all">
+<span class="material-symbols-outlined text-[24px] mb-1">forum</span>
+<span class="">CHAT</span>
+</button>
+<!-- SETTINGS -->
+<button class="flex flex-col items-center justify-center text-[#475569] w-full h-full hover:text-[#64e9d1] active:opacity-80 transition-all">
+<span class="material-symbols-outlined text-[24px] mb-1">settings</span>
+<span class="">SETTINGS</span>
+</button>
+</nav>
+</body></html>

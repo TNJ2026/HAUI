@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HERMES_CHAT</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+  body {
+    background-color: #f8f9ff;
+    color: #0b1c30;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .grid-bg {
+    background-image: 
+      linear-gradient(to right, rgba(0, 74, 198, 0.1) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 74, 198, 0.1) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+  .terminal-cursor {
+    display: inline-block;
+    width: 8px;
+    height: 1em;
+    background-color: #004ac6;
+    animation: blink 1s step-end infinite;
+    vertical-align: middle;
+    margin-left: 4px;
+  }
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 4px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: #2563eb;
+    border-radius: 4px;
+  }
+</style>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "surface-bright": "#f8f9ff",
+                "surface": "#f8f9ff",
+                "on-error": "#ffffff",
+                "on-tertiary": "#ffffff",
+                "outline-variant": "#c3c6d7",
+                "surface-dim": "#cbdbf5",
+                "background": "#f8f9ff",
+                "tertiary-container": "#676e76",
+                "on-secondary-fixed-variant": "#173bab",
+                "primary-container": "#2563eb",
+                "on-surface": "#0b1c30",
+                "error": "#ba1a1a",
+                "primary": "#004ac6",
+                "secondary-container": "#708cfd",
+                "on-secondary-fixed": "#001453",
+                "secondary-fixed-dim": "#b8c4ff",
+                "error-container": "#ffdad6",
+                "on-tertiary-fixed-variant": "#40484f",
+                "on-primary-container": "#eeefff",
+                "inverse-primary": "#b4c5ff",
+                "on-secondary-container": "#00217a",
+                "on-primary-fixed": "#00174b",
+                "on-primary": "#ffffff",
+                "secondary": "#3755c3",
+                "surface-container": "#e5eeff",
+                "on-surface-variant": "#434655",
+                "surface-container-low": "#eff4ff",
+                "surface-container-high": "#dce9ff",
+                "on-tertiary-container": "#eaf1fa",
+                "tertiary-fixed-dim": "#c0c7d0",
+                "tertiary-fixed": "#dce3ec",
+                "tertiary": "#4e565d",
+                "on-error-container": "#93000a",
+                "primary-fixed-dim": "#b4c5ff",
+                "surface-container-highest": "#d3e4fe",
+                "on-tertiary-fixed": "#151c23",
+                "surface-variant": "#d3e4fe",
+                "inverse-on-surface": "#eaf1ff",
+                "primary-fixed": "#dbe1ff",
+                "on-background": "#0b1c30",
+                "inverse-surface": "#213145",
+                "surface-container-lowest": "#ffffff",
+                "surface-tint": "#0053db",
+                "on-secondary": "#ffffff",
+                "outline": "#737686",
+                "secondary-fixed": "#dde1ff",
+                "on-primary-fixed-variant": "#003ea8"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+        },
+        "spacing": {
+                "margin": "48px",
+                "unit": "4px",
+                "gutter": "24px",
+                "grid_size": "32px"
+        },
+        "fontFamily": {
+                "headline-xl": [
+                        "Space Grotesk"
+                ],
+                "body-md": [
+                        "Space Grotesk"
+                ],
+                "headline-lg": [
+                        "Space Grotesk"
+                ],
+                "label-sm": [
+                        "Space Grotesk"
+                ],
+                "mono-code": [
+                        "Space Grotesk"
+                ]
+        },
+        "fontSize": {
+                "headline-xl": [
+                        "48px",
+                        {
+                                "lineHeight": "1.1",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "body-md": [
+                        "16px",
+                        {
+                                "lineHeight": "1.6",
+                                "letterSpacing": "0em",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-lg": [
+                        "24px",
+                        {
+                                "lineHeight": "1.2",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "label-sm": [
+                        "12px",
+                        {
+                                "lineHeight": "1",
+                                "letterSpacing": "0.1em",
+                                "fontWeight": "500"
+                        }
+                ],
+                "mono-code": [
+                        "14px",
+                        {
+                                "lineHeight": "1.5",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "400"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+  .progress-ring__circle {
+    transition: stroke-dashoffset 0.35s;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+  }
+  .token-glow {
+    filter: drop-shadow(0 0 3px rgba(0, 74, 198, 0.3));
+  }
+</style></head>
+<body class="bg-background min-h-screen relative overflow-hidden flex flex-col font-body-md text-body-md text-on-background">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 h-14 border-b border-primary/20 bg-background/80 backdrop-blur-sm">
+<div class="flex items-center gap-2">
+<span class="font-['Space_Grotesk'] tracking-widest uppercase text-xs text-primary font-bold">CHAT</span>
+</div>
+<div class="flex items-center gap-4"><button class="flex items-center justify-center border border-primary/30 py-1 px-2 rounded-sm bg-primary/5 text-primary hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined text-[18px]">history</span>
+</button>
+<button aria-label="New Chat" class="font-['Space_Grotesk'] tracking-widest uppercase text-xs text-primary hover:text-primary-container transition-colors border border-primary/30 py-1 rounded-sm bg-primary/5 px-3 flex items-center justify-center" title="New Chat"><span class="material-symbols-outlined text-[18px]">add_comment</span></button>
+</div>
+</header>
+<!-- Background Grid -->
+<div class="absolute inset-0 z-0 grid-bg pointer-events-none"></div>
+<!-- Main Chat Area -->
+<main class="flex-1 overflow-y-auto scrollbar-thin mt-14 mb-32 z-10 p-margin relative flex flex-col justify-end">
+<div class="w-full max-w-3xl mx-auto flex flex-col gap-6 w-full">
+<!-- Date Divider -->
+<!-- User Message 1 -->
+<div class="flex flex-col items-end w-full">
+<div class="flex items-center gap-2 mb-1">
+<span class="font-mono-code text-mono-code text-on-surface-variant opacity-70">[14:02:45]</span>
+<span class="font-label-sm text-label-sm text-primary uppercase">USER_01</span>
+</div>
+<div class="bg-surface-variant/80 border border-outline/30 px-4 py-3 rounded-DEFAULT max-w-[80%] backdrop-blur-sm">
+<p class="font-mono-code text-mono-code text-on-surface">LIST ALL SKILLS</p>
+</div>
+</div>
+<!-- AI Response 1 -->
+<div class="flex flex-col items-start w-full">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-[14px] text-primary" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+<span class="font-label-sm text-label-sm text-primary uppercase drop-shadow-[0_0_5px_rgba(37,99,235,0.3)]">HERMES</span>
+<span class="font-mono-code text-mono-code text-on-surface-variant opacity-70">[14:02:48]</span>
+</div>
+<div class="bg-surface-container/60 border border-primary-container/40 px-4 py-4 rounded-DEFAULT max-w-[85%] backdrop-blur-md shadow-[0_0_10px_rgba(37,99,235,0.05)]">
+<div class="mb-3 border-b border-primary-container/20 pb-2">
+<p class="font-mono-code text-mono-code text-primary-fixed-variant text-primary">&gt; QUERY_RECEIVED. COMPILING SKILL MATRIX...</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+<div class="border border-outline/20 p-2 rounded-sm bg-surface-container-highest/50 flex flex-col gap-1 hover:border-primary-container/60 transition-colors">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-secondary">folder_open</span>
+<span class="font-label-sm text-label-sm text-secondary">FILE_SEARCH</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant text-[12px]">Deep-scan local and networked directories for structured/unstructured data.</p>
+</div>
+<div class="border border-outline/20 p-2 rounded-sm bg-surface-container-highest/50 flex flex-col gap-1 hover:border-primary-container/60 transition-colors">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-secondary">analytics</span>
+<span class="font-label-sm text-label-sm text-secondary">DATA_ANALYSIS</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant text-[12px]">Parse datasets, generate predictive models, and isolate anomalies.</p>
+</div>
+<div class="border border-outline/20 p-2 rounded-sm bg-surface-container-highest/50 flex flex-col gap-1 hover:border-primary-container/60 transition-colors">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-secondary">radar</span>
+<span class="font-label-sm text-label-sm text-secondary">NETWORK_SCAN</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant text-[12px]">Map topology, identify active nodes, and assess firewall vulnerabilities.</p>
+</div>
+<div class="border border-outline/20 p-2 rounded-sm bg-surface-container-highest/50 flex flex-col gap-1 hover:border-primary-container/60 transition-colors">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-secondary">code</span>
+<span class="font-label-sm text-label-sm text-secondary">SYS_OVERRIDE</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant text-[12px]"><span class="text-error">[RESTRICTED]</span> Elevate privileges via known exploit vectors.</p>
+</div>
+</div>
+<div class="mt-3 pt-2 border-t border-primary-container/20">
+<span class="font-mono-code text-mono-code text-on-surface-variant text-[11px]">END_OF_LIST</span>
+</div>
+</div>
+</div>
+<!-- User Message 2 -->
+<div class="flex flex-col items-end w-full mt-4">
+<div class="flex items-center gap-2 mb-1">
+<span class="font-label-sm text-label-sm text-primary uppercase">USER_01</span>
+</div>
+<div class="bg-surface-variant/80 border border-outline/30 px-4 py-3 rounded-DEFAULT max-w-[80%] backdrop-blur-sm">
+<p class="font-mono-code text-mono-code text-on-surface">INITIATE PROTOCOL_07</p>
+</div>
+</div>
+<!-- AI Response 2 -->
+<div class="flex flex-col items-start w-full">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-[14px] text-primary" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+<span class="font-label-sm text-label-sm text-primary uppercase drop-shadow-[0_0_5px_rgba(37,99,235,0.3)]">HERMES</span>
+</div>
+<div class="bg-surface-container/60 border border-primary-container/60 px-4 py-3 rounded-DEFAULT max-w-[80%] backdrop-blur-md shadow-[0_0_15px_rgba(37,99,235,0.1)]">
+<p class="font-mono-code text-mono-code text-primary">PROTOCOL_07 INITIALIZED. MONITORING SYSTEM VITALS...</p>
+<div class="mt-2 w-full h-1 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-primary-container w-[45%] animate-pulse"></div>
+</div>
+</div>
+</div><!-- AI Response 3 - Tools Status -->
+<div class="flex flex-col items-start w-full mt-4">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-[14px] text-primary" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+<span class="font-label-sm text-label-sm text-primary uppercase drop-shadow-[0_0_5px_rgba(37,99,235,0.3)]">HERMES</span>
+</div>
+<div class="bg-surface-container/60 border border-primary-container/40 px-4 py-3 rounded-DEFAULT max-w-[80%] backdrop-blur-md shadow-[0_0_10px_rgba(37,99,235,0.05)]">
+<div class="mb-2 border-b border-primary-container/20 pb-1">
+<p class="font-mono-code text-mono-code text-primary uppercase tracking-wider text-sm">[ TOOLS ]</p>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between gap-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px] text-secondary">terminal</span>
+<span class="font-mono-code text-[12px] text-on-surface">Code Interpreter</span>
+</div>
+<div class="flex items-center gap-1">
+<div class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></div>
+<span class="font-label-sm text-[10px] text-primary">ACTIVE</span>
+</div>
+</div>
+<div class="flex items-center justify-between gap-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px] text-secondary">language</span>
+<span class="font-mono-code text-[12px] text-on-surface">Web Search</span>
+</div>
+<div class="flex items-center gap-1">
+<div class="w-1.5 h-1.5 rounded-full bg-outline"></div>
+<span class="font-label-sm text-[10px] text-on-surface-variant">READY</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Input Area (Above Bottom Nav) -->
+<div class="fixed bottom-16 left-0 w-full z-40 bg-background/90 backdrop-blur-md border-t border-outline/20 p-4">
+<div class="max-w-3xl mx-auto flex items-center gap-3">
+<div class="relative">
+<button class="p-2 border border-outline/30 rounded-DEFAULT text-on-surface-variant hover:text-primary hover:border-primary/50 transition-colors bg-surface-container-low" onclick="document.getElementById('attachment-dropdown').classList.toggle('hidden')">
+<span class="material-symbols-outlined text-[20px]">attach_file</span>
+</button>
+<div class="hidden absolute bottom-full mb-3 left-0 w-48 bg-surface-container-lowest border border-primary/40 rounded-DEFAULT shadow-xl z-50 overflow-hidden" id="attachment-dropdown">
+<!-- Mini Grid Background -->
+<div class="absolute inset-0 opacity-10 pointer-events-none grid-bg"></div>
+<div class="relative flex flex-col divide-y divide-primary/10">
+<button class="flex items-center gap-3 px-4 py-3 hover:bg-primary/5 transition-colors text-left">
+<span class="material-symbols-outlined text-[18px] text-primary">image</span>
+<span class="font-mono-code text-[12px] text-on-surface uppercase tracking-wider">Images</span>
+</button>
+<button class="flex items-center gap-3 px-4 py-3 hover:bg-primary/5 transition-colors text-left">
+<span class="material-symbols-outlined text-[18px] text-primary">description</span>
+<span class="font-mono-code text-[12px] text-on-surface uppercase tracking-wider">Documents</span>
+</button>
+</div>
+</div>
+</div>
+<div class="flex-1 relative">
+<div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+<span class="font-mono-code text-mono-code text-primary">&gt;</span>
+</div>
+<input class="w-full bg-surface-container-low border border-outline/30 rounded-DEFAULT py-3 pl-8 pr-4 font-mono-code text-mono-code text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all" placeholder="ENTER COMMAND..." type="text"/>
+<div class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+<span class="terminal-cursor"></span>
+</div>
+</div>
+<button class="py-3 border border-primary text-on-primary font-label-sm text-label-sm rounded-DEFAULT bg-primary hover:bg-primary-container transition-colors flex items-center gap-2 shadow-[0_0_10px_rgba(37,99,235,0.2)] px-3"><span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">send</span></button>
+</div>
+</div>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 px-4 bg-surface-container-highest border-t border-primary/20 md:hidden">
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-2 py-1 hover:text-primary transition-all w-1/3" href="#">
+<span class="material-symbols-outlined mb-0.5 text-[24px]">memory</span>
+<span class="font-label-sm text-[10px] tracking-widest uppercase">HERMES</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary text-on-primary px-2 py-1 shadow-[0_0_15px_rgba(37,99,235,0.3)] scale-100 transition-all w-1/3 rounded-sm" href="#">
+<span class="material-symbols-outlined mb-0.5 text-[24px]" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+<span class="font-label-sm text-[10px] tracking-widest uppercase">CHAT</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-2 py-1 hover:text-primary transition-all w-1/3" href="#">
+<span class="material-symbols-outlined mb-0.5 text-[24px]">settings_input_component</span>
+<span class="font-label-sm text-[10px] tracking-widest uppercase">SETTINGS</span>
+</a>
+</nav>
+<!-- Desktop Nav Sidebar (Hidden on mobile, fulfilling shared component logic for layout) -->
+<nav class="hidden md:flex fixed left-0 top-14 bottom-0 w-24 bg-surface-container-highest border-r border-primary/20 flex-col items-center py-6 gap-8 z-40">
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-2 py-4 hover:text-primary transition-all w-full" href="#">
+<span class="material-symbols-outlined mb-1 text-2xl">memory</span>
+<span class="font-label-sm text-[10px] tracking-widest uppercase text-center">HERMES</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary text-on-primary px-2 py-4 shadow-[0_0_15px_rgba(37,99,235,0.3)] w-full relative" href="#">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-on-primary"></div>
+<span class="material-symbols-outlined mb-1 text-2xl" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+<span class="font-label-sm text-[10px] tracking-widest uppercase text-center">CHAT</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-2 py-4 hover:text-primary transition-all w-full mt-auto" href="#">
+<span class="material-symbols-outlined mb-1 text-2xl">settings_input_component</span>
+<span class="font-label-sm text-[10px] tracking-widest uppercase text-center">SETTINGS</span>
+</a>
+</nav>
+<!-- Adjust main layout for desktop sidebar -->
+<style>
+    @media (min-width: 768px) {
+      main {
+        margin-left: 6rem; /* 96px for 24 spacing */
+        margin-bottom: 5rem; /* Space for input */
+      }
+      .fixed.bottom-16 {
+        bottom: 0;
+        left: 6rem;
+        width: calc(100% - 6rem);
+      }
+    }
+  </style>
+</body></html>

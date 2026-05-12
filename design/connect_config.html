@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CORE_OS // CONNECTION_CONFIGURATION</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-tint": "#0053db",
+                    "surface-container-high": "#dce9ff",
+                    "inverse-primary": "#b4c5ff",
+                    "surface-container-highest": "#d3e4fe",
+                    "surface-container": "#e5eeff",
+                    "surface-bright": "#f8f9ff",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "outline-variant": "#c3c6d7",
+                    "error-container": "#ffdad6",
+                    "on-primary": "#ffffff",
+                    "on-primary-container": "#eeefff",
+                    "on-secondary-container": "#00217a",
+                    "outline": "#737686",
+                    "surface-dim": "#cbdbf5",
+                    "inverse-surface": "#213145",
+                    "surface-variant": "#d3e4fe",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed": "#dbe1ff",
+                    "on-secondary-fixed": "#001453",
+                    "primary-container": "#2563eb",
+                    "on-tertiary-fixed-variant": "#40484f",
+                    "surface": "#f8f9ff",
+                    "on-primary-fixed": "#00174b",
+                    "tertiary-container": "#676e76",
+                    "secondary-container": "#708cfd",
+                    "tertiary": "#4e565d",
+                    "on-tertiary-fixed": "#151c23",
+                    "primary": "#004ac6",
+                    "on-error-container": "#93000a",
+                    "secondary": "#3755c3",
+                    "error": "#ba1a1a",
+                    "on-tertiary-container": "#eaf1fa",
+                    "background": "#f8f9ff",
+                    "surface-container-low": "#eff4ff",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "tertiary-fixed-dim": "#c0c7d0",
+                    "on-surface-variant": "#434655",
+                    "on-error": "#ffffff",
+                    "tertiary-fixed": "#dce3ec",
+                    "secondary-fixed": "#dde1ff",
+                    "secondary-fixed-dim": "#b8c4ff",
+                    "on-secondary-fixed-variant": "#173bab",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "on-surface": "#0b1c30",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-background": "#0b1c30"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin": "48px",
+                    "unit": "4px",
+                    "gutter": "24px",
+                    "grid_size": "32px"
+            },
+            "fontFamily": {
+                    "body-md": ["Space Grotesk"],
+                    "mono-code": ["Space Grotesk"],
+                    "headline-xl": ["Space Grotesk"],
+                    "label-sm": ["Space Grotesk"],
+                    "headline-lg": ["Space Grotesk"],
+                    "label-caps": ["Space Grotesk"],
+                    "headline-md": ["Space Grotesk"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400"}],
+                    "mono-code": ["14px", {"lineHeight": "1.5", "letterSpacing": "-0.01em", "fontWeight": "400"}],
+                    "headline-xl": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                    "headline-lg": ["24px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "headline-md": ["18px", {"lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #f8f9ff;
+            background-image: 
+                linear-gradient(rgba(0, 74, 198, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 74, 198, 0.08) 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+        .blueprint-glow {
+            text-shadow: 0 0 12px rgba(0, 74, 198, 0.2);
+        }
+        .border-glow {
+            box-shadow: 0 4px 20px rgba(0, 74, 198, 0.1);
+        }
+        .blink-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 1.2em;
+            background-color: #004ac6;
+            vertical-align: middle;
+            margin-left: 2px;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="min-h-screen font-body-md text-on-surface flex flex-col">
+<!-- Top App Bar (Blurred/Simulated Background UI) -->
+<header class="bg-surface/80 backdrop-blur-md border-b border-primary/20 flex justify-between items-center w-full px-margin py-unit h-14 fixed top-0 z-40">
+<div class="flex items-center gap-gutter">
+<span class="material-symbols-outlined text-primary">terminal</span>
+<h1 class="font-headline-lg text-headline-lg font-bold text-primary tracking-tighter">CORE_OS // BLUEPRINT_MODE</h1>
+</div>
+<div class="font-mono-code text-mono-code text-primary uppercase">
+            [ SECURE_LINK ]
+        </div>
+</header>
+<!-- Main Workspace (Simulated Content) -->
+<main class="flex-grow flex items-center justify-center p-margin pt-20">
+<div class="max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 gap-gutter opacity-40">
+<div class="border border-primary/20 bg-surface-container p-gutter flex flex-col gap-unit">
+<div class="flex justify-between items-center border-b border-primary/20 pb-unit mb-2">
+<span class="font-label-caps text-label-caps text-primary">SYSTEM_METRICS</span>
+<span class="font-mono-code text-[10px] text-primary/60">[ LIVE ]</span>
+</div>
+<div class="h-32 bg-white/50 border border-primary/10 flex items-end p-2 gap-1">
+<div class="flex-1 bg-primary/40 h-[40%]"></div>
+<div class="flex-1 bg-primary/60 h-[65%]"></div>
+<div class="flex-1 bg-primary/40 h-[50%]"></div>
+<div class="flex-1 bg-primary/70 h-[80%]"></div>
+<div class="flex-1 bg-primary/40 h-[30%]"></div>
+</div>
+</div>
+<div class="border border-primary/20 bg-surface-container p-gutter flex flex-col gap-unit">
+<div class="flex justify-between items-center border-b border-primary/20 pb-unit mb-2">
+<span class="font-label-caps text-label-caps text-primary">NETWORK_MAP</span>
+<span class="font-mono-code text-[10px] text-primary/60">[ IDLE ]</span>
+</div>
+<div class="flex-grow flex items-center justify-center border border-primary/10 rounded-sm py-8">
+<span class="material-symbols-outlined text-primary/40 text-4xl">hub</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Overlay Backdrop -->
+<div class="fixed inset-0 bg-primary/5 backdrop-blur-sm z-40"></div>
+<!-- Bottom Sheet: Connection Configuration -->
+<div class="fixed bottom-0 left-0 right-0 z-50 flex justify-center">
+<div class="w-full bg-surface-bright border-t-2 border-primary rounded-t-xl overflow-hidden shadow-[0_-8px_48px_rgba(0,83,219,0.15)]">
+<!-- Handle & Header -->
+<div class="flex flex-col items-center pt-unit pb-gutter">
+<div class="w-12 h-1.5 bg-primary/20 rounded-full mt-2 mb-4"></div>
+<div class="w-full px-margin flex justify-between items-center border-b border-primary/10 pb-4">
+<h2 class="font-headline-md text-headline-md text-primary font-bold uppercase tracking-wider blueprint-glow">[ CONNECTION_SETTINGS ]</h2>
+</div>
+</div>
+<!-- Form Body -->
+<div class="px-margin pb-margin space-y-gutter">
+<!-- Field: Host -->
+<div class="space-y-unit">
+<label class="font-label-caps text-label-caps text-primary/70 block uppercase font-bold">Target_Host</label>
+<div class="relative group">
+<div class="absolute left-0 top-1/2 -translate-y-1/2 text-primary font-bold pl-3">&gt;</div>
+<input class="w-full bg-surface-container-lowest border border-primary/30 focus:border-primary text-primary font-mono-code text-mono-code pl-8 py-3 outline-none focus:ring-0 transition-all group-hover:border-primary/50" placeholder="127.0.0.1" type="text"/>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- Field: Port -->
+<div class="space-y-unit">
+<label class="font-label-caps text-label-caps text-primary/70 block uppercase font-bold">Service_Port</label>
+<div class="relative group">
+<div class="absolute left-0 top-1/2 -translate-y-1/2 text-primary font-bold pl-3">&gt;</div>
+<input class="w-full bg-surface-container-lowest border border-primary/30 focus:border-primary text-primary font-mono-code text-mono-code pl-8 py-3 outline-none focus:ring-0 transition-all group-hover:border-primary/50" placeholder="8080" type="text"/>
+</div>
+</div>
+<!-- Field: API Key -->
+<div class="space-y-unit">
+<label class="font-label-caps text-label-caps text-primary/70 block uppercase font-bold">Access_Key <span class="opacity-50 text-[9px] font-normal">(OPTIONAL)</span></label>
+<div class="relative group">
+<div class="absolute left-0 top-1/2 -translate-y-1/2 text-primary font-bold pl-3">&gt;</div>
+<input class="w-full bg-surface-container-lowest border border-primary/30 focus:border-primary text-primary font-mono-code text-mono-code pl-8 py-3 outline-none focus:ring-0 transition-all group-hover:border-primary/50" placeholder="••••••••" type="password"/>
+<div class="absolute right-3 top-1/2 -translate-y-1/2 blink-cursor"></div>
+</div>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="pt-margin">
+<button class="w-full bg-primary py-5 font-headline-md text-headline-md text-white font-bold hover:bg-primary-container transition-all duration-200 border-glow active:scale-[0.99] uppercase tracking-widest">
+                        CONNECT
+                    </button>
+</div>
+</div>
+</div>
+</div>
+</body></html>

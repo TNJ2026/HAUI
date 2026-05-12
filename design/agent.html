@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Agent Info Screen</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#93000a",
+                        "on-primary-fixed-variant": "#00504a",
+                        "surface-tint": "#5adace",
+                        "primary-fixed-dim": "#5adace",
+                        "inverse-surface": "#d4e7dd",
+                        "on-primary-fixed": "#00201d",
+                        "on-tertiary-fixed": "#410004",
+                        "primary-fixed": "#79f7ea",
+                        "surface-dim": "#071610",
+                        "surface-container-high": "#1d2d27",
+                        "on-surface": "#d4e7dd",
+                        "inverse-primary": "#006a63",
+                        "background": "#071610",
+                        "surface-bright": "#2c3d36",
+                        "outline-variant": "#3c4947",
+                        "on-tertiary-fixed-variant": "#930013",
+                        "on-secondary-fixed": "#00201b",
+                        "on-secondary-fixed-variant": "#2d4d46",
+                        "outline": "#869491",
+                        "secondary-fixed": "#c7eae1",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-lowest": "#03110b",
+                        "inverse-on-surface": "#24342d",
+                        "tertiary": "#ffceca",
+                        "error": "#ffb4ab",
+                        "tertiary-fixed": "#ffdad7",
+                        "on-primary": "#003733",
+                        "surface-variant": "#283831",
+                        "secondary": "#abcec5",
+                        "on-secondary": "#153630",
+                        "on-tertiary-container": "#9e0015",
+                        "on-secondary-container": "#9abcb4",
+                        "on-primary-container": "#005750",
+                        "tertiary-fixed-dim": "#ffb3ad",
+                        "surface-container-low": "#0f1f18",
+                        "primary-container": "#4fd1c5",
+                        "tertiary-container": "#ffa7a0",
+                        "secondary-container": "#2d4d46",
+                        "on-tertiary": "#68000a",
+                        "surface": "#071610",
+                        "surface-container-highest": "#283831",
+                        "on-background": "#d4e7dd",
+                        "primary": "#6feee1",
+                        "on-error": "#690005",
+                        "secondary-fixed-dim": "#abcec5",
+                        "on-surface-variant": "#bbc9c7",
+                        "surface-container": "#13231c"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin": "24px",
+                        "gutter": "16px",
+                        "unit": "4px",
+                        "container-padding": "12px"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Space Grotesk"],
+                        "headline-lg": ["Space Grotesk"],
+                        "code": ["JetBrains Mono", "Monospace"],
+                        "label-caps": ["Space Grotesk"]
+                    },
+                    "fontSize": {
+                        "body-sm": ["12px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "headline-md": ["18px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "500" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "code": ["13px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }],
+                        "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .grid-bg {
+            background-image: 
+                linear-gradient(to right, rgba(111, 238, 225, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(111, 238, 225, 0.05) 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+        .blinking-cursor::after {
+            content: "█";
+            animation: blink 1s step-start infinite;
+            color: theme('colors.primary');
+            margin-left: 4px;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+        .crt-scanline {
+            background: linear-gradient(
+                to bottom,
+                transparent 50%,
+                rgba(0, 0, 0, 0.2) 51%
+            );
+            background-size: 100% 4px;
+        }
+        .glow-border {
+            box-shadow: 0 0 10px rgba(111, 238, 225, 0.3), inset 0 0 10px rgba(111, 238, 225, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen relative font-body-md overflow-x-hidden">
+<!-- Background Grid & Effects -->
+<div class="fixed inset-0 grid-bg pointer-events-none z-0"></div>
+<div class="fixed inset-0 crt-scanline pointer-events-none z-10 mix-blend-overlay opacity-30"></div>
+<!-- TopAppBar -->
+<!-- Main Content Canvas -->
+<main class="relative z-20 pb-24 px-margin max-w-4xl mx-auto flex flex-col gap-margin pt-margin">
+<!-- Header Section -->
+<header class="border border-primary/30 bg-surface/80 backdrop-blur-md glow-border p-container-padding flex flex-col items-center justify-center gap-gutter relative overflow-hidden">
+<!-- Decorative corner elements -->
+<div class="absolute top-0 left-0 w-2 h-2 border-t border-l border-primary"></div>
+<div class="absolute top-0 right-0 w-2 h-2 border-t border-r border-primary"></div>
+<div class="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-primary"></div>
+<div class="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-primary"></div>
+<h1 class="font-headline-lg text-primary text-center mb-2 drop-shadow-[0_0_8px_rgba(111,238,225,0.4)]">AGENT_PROFILE // HERMES</h1>
+<!-- Avatar Container -->
+<div class="relative w-40 h-40 border-2 border-primary p-1 bg-surface-container-low shadow-[0_0_20px_rgba(111,238,225,0.2)]">
+<img alt="Hermes Avatar" class="w-full h-full object-cover filter contrast-125 saturate-50 sepia-[.2] hue-rotate-[130deg]" data-alt="A striking portrait illustration of an advanced AI agent named Hermes. The avatar features sharp, angular features and glowing cyan optic sensors. The style is heavily influenced by cyberpunk and retro-futurism, set against a dark background with subtle neon green and teal accents. The overall mood is cold, calculated, and highly technical." src="https://lh3.googleusercontent.com/aida/ADBb0uh8k6aZ7l1mL2TzNag7MbQ3V5-JuNh0X1qt0t5rQJxdc48xON4aY9BjD7qDk9Vsqsb-Tge0xvhP3FSJdPGri2VeVoWQmZJcLqapt-lkvq5hP5rWZpPOMkE27fDa1oa2ndjTVr_b0mMKQT4aEukUwNufl6YpeglNr0N3YoI_4u2-D9MrK2cJXBDgJeOqmZd3ka5ULYK4eGatRwk2IaCsaRSbqjcNQo42a-6iOEaKCwBqq1gjfiVaeDhxcCyZV4CrVq9l-ldaSE0WonI"/>
+<!-- Status indicator -->
+<div class="absolute bottom-2 right-2 w-3 h-3 bg-primary rounded-none shadow-[0_0_8px_#6feee1] animate-pulse"></div>
+</div>
+<div class="font-headline-lg text-primary uppercase tracking-[0.3em] mt-2 text-center text-2xl font-bold">HERMES <span class="blinking-cursor"></span></div>
+</header>
+<!-- Data Panels -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- Server Status Panel -->
+<section class="border border-outline-variant bg-surface-container-low/90 backdrop-blur-sm flex flex-col">
+<div class="border-b border-outline-variant px-4 py-2 flex justify-between items-center bg-surface-variant/50">
+<h2 class="font-label-caps text-on-surface-variant">[ SERVER_STATUS ]</h2>
+<span class="font-code text-primary text-[10px] bg-primary/10 px-2 py-0.5 border border-primary/30">LIVE</span>
+</div>
+<div class="p-container-padding font-code text-body-sm text-on-surface flex flex-col gap-3 relative">
+<!-- Subtle internal grid lines -->
+<div class="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_19px,var(--tw-colors-outline-variant)_20px)] bg-[size:100%_20px] opacity-10 pointer-events-none"></div>
+<div class="flex justify-between border-b border-outline-variant/30 pb-2 relative z-10">
+<span class="text-on-surface-variant">ADDRESS:</span>
+<span class="text-secondary">192.168.31.167:8642</span>
+</div>
+<div class="flex justify-between border-b border-outline-variant/30 pb-2 relative z-10">
+<span class="text-on-surface-variant">HEALTH:</span>
+<span class="text-primary font-bold drop-shadow-[0_0_4px_rgba(111,238,225,0.5)]">OK</span>
+</div>
+<div class="flex justify-between pb-1 relative z-10">
+<span class="text-on-surface-variant">UPTIME:</span>
+<span class="text-secondary">14:02:45:99</span>
+</div>
+</div>
+</section>
+<!-- Active Sub-Routines Panel -->
+<section class="border border-outline-variant bg-surface-container-low/90 backdrop-blur-sm flex flex-col">
+<div class="border-b border-outline-variant px-4 py-2 flex justify-between items-center bg-surface-variant/50">
+<h2 class="font-label-caps text-on-surface-variant">[ ACTIVE_SUB-ROUTINES ]</h2>
+<span class="font-code text-on-surface text-[10px] bg-surface-container-highest px-2 py-0.5 border border-outline-variant">2 PROCS</span>
+</div>
+<div class="p-container-padding flex flex-col gap-4 font-code text-body-sm text-on-surface">
+<!-- Routine 1 -->
+<div class="flex flex-col gap-1">
+<div class="flex justify-between text-[11px]">
+<span class="text-on-surface-variant">GATEWAY:</span>
+<span class="text-primary">RUNNING</span>
+</div>
+</div>
+<!-- Routine 2 -->
+<div class="flex flex-col gap-1">
+<div class="flex justify-between text-[11px]">
+<span class="text-on-surface-variant">CONNECTION:</span>
+<span class="text-primary">CONNECTED</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Secondary Image / Graphic Panel -->
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 bg-surface-container-lowest/95 backdrop-blur-md border-t border-outline-variant/30 font-label-caps tracking-widest">
+<!-- HERMES Tab (Active) -->
+<button class="flex flex-col items-center justify-center text-primary bg-secondary-container/30 border-t-2 border-primary px-6 py-2 transition-all duration-200 flex-1 h-full relative">
+<span class="material-symbols-outlined mb-1 text-[24px]" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+<span class="text-[10px]">HERMES</span>
+</button>
+<!-- CHAT Tab -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/20 hover:text-secondary px-6 py-2 transition-all duration-200 flex-1 h-full">
+<span class="material-symbols-outlined mb-1 text-[24px]">forum</span>
+<span class="text-[10px]">CHAT</span>
+</button>
+<!-- SETTINGS Tab -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/20 hover:text-secondary px-6 py-2 transition-all duration-200 flex-1 h-full">
+<span class="material-symbols-outlined mb-1 text-[24px]">settings</span>
+<span class="text-[10px]">SETTINGS</span>
+</button>
+</nav>
+</body></html>

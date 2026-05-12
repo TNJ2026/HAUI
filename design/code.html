@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hermes Agent Terminal</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#020617",
+                        "on-background": "#e2e8f0",
+                        "primary-container": "#64e9d1",
+                        "on-primary-container": "#020617",
+                        "surface-container": "#0f172a",
+                        "surface-container-high": "#1e293b",
+                        "surface-container-highest": "#334155",
+                        "outline": "#475569",
+                        "on-surface": "#e2e8f0",
+                        "on-surface-variant": "#94a3b8"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "stack-md": "16px",
+                        "margin": "20px",
+                        "gutter": "16px",
+                        "stack-lg": "32px",
+                        "stack-sm": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Space Grotesk"],
+                        "headline-md": ["Space Grotesk"],
+                        "technical-sm": ["Space Grotesk"],
+                        "body-md": ["Inter"],
+                        "data-mono": ["Space Grotesk"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", { "lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "technical-sm": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "data-mono": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .scanlines {
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
+            background-size: 100% 4px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background min-h-screen font-body-md overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar -->
+<!-- Main Canvas -->
+<main class="px-margin max-w-2xl mx-auto flex flex-col gap-stack-lg relative min-h-screen justify-center pb-24">
+<!-- Global Scanline Overlay -->
+<div class="fixed inset-0 scanlines pointer-events-none z-0 opacity-20 mix-blend-overlay"></div>
+<!-- Section 1: Agent Identity & Status -->
+<section class="flex flex-col items-center gap-stack-md relative z-10 mt-stack-md">
+<div class="w-32 h-32 border border-outline/30 bg-surface-container relative flex items-center justify-center p-1">
+<img alt="AGENT_01 Identity Visualization" class="w-full h-full object-cover mix-blend-luminosity opacity-80" data-alt="Avatar of AGENT_01, a stylized black and white illustration of a girl with headphones" src="https://lh3.googleusercontent.com/aida/ADBb0uidGmnSPAxcAcj7UW3j6pD5AASmuBkWsDWFBWac0BZRymjYu0Ecj6AD2NlhKFGSkv-KBgJ5uisE4oX5DcLL2f3lZ2lb7rIF3xIYIfqtS42DUduP_0BgTzzw4_IlNGISO0tpjBzgcvnNUgJhZXrxb3HZeH1iYsXAr_V49DMqQBc_LIm8T1R3FOD92enBkJymhYtPc7Ml46LKkIKYuJj3XNJ9QTgoLCWUB-vzDCYJ_tFFxxP-SUsQg1SOKV-3HkUPdSFCEkz5uAYnuQ"/>
+<div class="absolute inset-0 border border-primary-container/20"></div>
+<!-- Blinking cursor accent -->
+<div class="absolute bottom-2 left-2 w-2 h-4 bg-primary-container animate-pulse"></div>
+</div>
+<div class="flex flex-col items-center gap-unit">
+<h1 class="font-headline-lg text-headline-lg text-primary-container uppercase tracking-tight">Hermes</h1>
+<div class="font-technical-sm text-technical-sm text-on-surface-variant opacity-70 mb-1 uppercase">PLATFORM: hermes-agent</div><div class="flex items-center gap-2 border border-primary-container px-3 py-1 bg-surface-container-high">
+<div class="w-2 h-2 bg-primary-container shadow-[0_0_8px_rgba(100,233,209,0.8)]"></div>
+<span class="font-technical-sm text-technical-sm text-primary-container uppercase tracking-widest">Active State</span>
+</div>
+</div>
+</section>
+<!-- Section 2: Telemetry Grid -->
+<section class="grid grid-cols-2 gap-unit relative z-10">
+<!-- Metric 1 -->
+<div class="border border-outline/30 bg-surface-container p-stack-sm flex flex-col justify-between col-span-2">
+<div class="flex justify-between items-center">
+<span class="font-technical-sm text-technical-sm text-on-surface-variant uppercase">Health Status</span>
+<div class="flex items-center gap-2">
+<span class="font-data-mono text-body-md text-primary-container tracking-tight uppercase">Optimal</span>
+<div class="w-2 h-2 bg-primary-container shadow-[0_0_8px_rgba(100,233,209,0.8)]"></div>
+</div>
+</div>
+<div class="h-[1px] w-full bg-primary-container/20 mt-2">
+<div class="h-full bg-primary-container w-full"></div>
+</div>
+</div>
+<!-- Metric 2 -->
+<!-- Metric 3: Wide Chart -->
+<div class="border border-outline/30 bg-surface-container p-stack-sm col-span-2 flex flex-col gap-stack-sm">
+<div class="flex justify-between items-end border-b border-outline/20 pb-unit">
+<span class="font-technical-sm text-technical-sm text-on-surface-variant uppercase">API_SERVER_CONFIG</span>
+</div>
+<div class="py-2">
+<div class="flex justify-between items-center">
+<span class="font-technical-sm text-on-surface-variant opacity-60">ADDRESS</span>
+<span class="font-data-mono text-on-surface">192.168.1.12:8464</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 3: Sub-Routines -->
+<section class="flex flex-col gap-0 border border-outline/30 relative z-10 bg-surface-container"><div class="p-stack-sm border-b border-outline/30 bg-surface-container-high">
+<h2 class="font-technical-sm text-technical-sm text-on-surface uppercase">Active Sub-Routines</h2>
+</div>
+<div class="p-stack-sm border-b border-outline/30 flex justify-between items-center hover:bg-primary-container/5 transition-colors cursor-default">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-[16px]">router</span>
+<span class="font-data-mono text-data-mono text-on-surface">GATEWAY</span>
+</div>
+<span class="font-technical-sm text-technical-sm text-primary-container bg-primary-container/10 px-2 py-1">RUNNING</span>
+</div>
+<div class="p-stack-sm border-b border-outline/30 flex justify-between items-center hover:bg-primary-container/5 transition-colors cursor-default">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-[16px]">hub</span>
+<span class="font-data-mono text-data-mono text-on-surface">APISERVER_CONN</span>
+</div>
+<span class="font-technical-sm text-technical-sm text-primary-container bg-primary-container/10 px-2 py-1">CONNECTED</span>
+</div>
+</section>
+<div class="flex flex-col gap-2 relative z-10 mt-stack-md">
+<button class="w-full flex items-center justify-center gap-3 border-2 border-primary-container bg-surface-container-high px-6 text-primary-container hover:bg-primary-container hover:text-on-primary-container transition-all duration-300 shadow-[0_0_15px_rgba(100,233,209,0.2)] hover:shadow-[0_0_25px_rgba(100,233,209,0.4)] group py-2.5">
+<span class="font-headline-md text-headline-md tracking-[0.2em] uppercase">CONNECT</span>
+</button>
+</div></main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center h-16 border-t border-[#1e293b] z-50 bg-[#0f172a] font-['Space_Grotesk'] text-[10px] uppercase font-bold tracking-widest">
+<!-- AGENT (Active) -->
+<button class="flex flex-col items-center justify-center text-[#64e9d1] bg-[#64e9d1]/10 border-t-2 border-[#64e9d1] w-full h-full active:opacity-80 transition-all">
+<span class="material-symbols-outlined text-[24px] mb-1">smart_toy</span>
+<span class="">AGENT</span>
+</button>
+<!-- CHAT -->
+<button class="flex flex-col items-center justify-center text-[#475569] w-full h-full hover:text-[#64e9d1] active:opacity-80 transition-all">
+<span class="material-symbols-outlined text-[24px] mb-1">forum</span>
+<span class="">CHAT</span>
+</button>
+<!-- SETTINGS -->
+<button class="flex flex-col items-center justify-center text-[#475569] w-full h-full hover:text-[#64e9d1] active:opacity-80 transition-all">
+<span class="material-symbols-outlined text-[24px] mb-1">settings</span>
+<span class="">SETTINGS</span>
+</button>
+</nav>
+</body></html>

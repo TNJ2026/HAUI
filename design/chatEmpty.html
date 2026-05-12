@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chat Screen - Hermes Protocol</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#d4e7dd",
+                        "inverse-primary": "#006a63",
+                        "surface-dim": "#071610",
+                        "surface-container-high": "#1d2d27",
+                        "on-tertiary-fixed": "#410004",
+                        "primary-fixed": "#79f7ea",
+                        "on-primary-fixed": "#00201d",
+                        "surface-tint": "#5adace",
+                        "primary-fixed-dim": "#5adace",
+                        "inverse-surface": "#d4e7dd",
+                        "error-container": "#93000a",
+                        "on-primary-fixed-variant": "#00504a",
+                        "secondary-fixed": "#c7eae1",
+                        "on-error-container": "#ffdad6",
+                        "outline": "#869491",
+                        "on-secondary-fixed": "#00201b",
+                        "on-secondary-fixed-variant": "#2d4d46",
+                        "outline-variant": "#3c4947",
+                        "on-tertiary-fixed-variant": "#930013",
+                        "surface-bright": "#2c3d36",
+                        "background": "#071610",
+                        "on-primary": "#003733",
+                        "surface-variant": "#283831",
+                        "secondary": "#abcec5",
+                        "on-secondary": "#153630",
+                        "tertiary-fixed": "#ffdad7",
+                        "tertiary": "#ffceca",
+                        "error": "#ffb4ab",
+                        "surface-container-lowest": "#03110b",
+                        "inverse-on-surface": "#24342d",
+                        "secondary-fixed-dim": "#abcec5",
+                        "on-surface-variant": "#bbc9c7",
+                        "surface-container": "#13231c",
+                        "primary": "#6feee1",
+                        "on-error": "#690005",
+                        "surface-container-highest": "#283831",
+                        "on-background": "#d4e7dd",
+                        "surface": "#071610",
+                        "on-tertiary": "#68000a",
+                        "primary-container": "#4fd1c5",
+                        "tertiary-container": "#ffa7a0",
+                        "secondary-container": "#2d4d46",
+                        "surface-container-low": "#0f1f18",
+                        "on-tertiary-container": "#9e0015",
+                        "on-secondary-container": "#9abcb4",
+                        "on-primary-container": "#005750",
+                        "tertiary-fixed-dim": "#ffb3ad"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "container-padding": "12px",
+                        "margin": "24px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Space Grotesk"],
+                        "headline-lg": ["Space Grotesk"],
+                        "code": ["Monospace"],
+                        "label-caps": ["Space Grotesk"]
+                    },
+                    "fontSize": {
+                        "body-sm": ["12px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "headline-md": ["18px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "500" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "code": ["13px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }],
+                        "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .grid-bg {
+            background-image: 
+                linear-gradient(to right, rgba(79, 209, 197, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(79, 209, 197, 0.05) 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+        .glow-border {
+            box-shadow: 0 0 8px rgba(79, 209, 197, 0.3);
+        }
+        .glow-text {
+            text-shadow: 0 0 5px rgba(79, 209, 197, 0.8);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md overflow-hidden relative">
+<!-- Background Grid -->
+<div class="absolute inset-0 grid-bg pointer-events-none z-0"></div>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col relative z-10 p-gutter pb-[calc(64px+16px)]">
+<!-- Empty State Container -->
+<div class="flex-1 flex items-center justify-center">
+<div class="border border-primary-container/30 px-margin py-gutter rounded glow-border bg-surface-container-low/50 backdrop-blur-sm relative overflow-hidden group">
+<!-- Terminal decorative line -->
+<div class="absolute top-0 left-0 w-full h-[1px] bg-primary-container/50"></div>
+<span class="font-code text-primary-container text-body-md tracking-wider glow-text flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] opacity-70">terminal</span>
+                    发送消息开始聊天吧
+                    <span class="w-[8px] h-[16px] bg-primary-container inline-block animate-pulse"></span>
+</span>
+</div>
+</div>
+<!-- Message Input Area -->
+<div class="w-full max-w-2xl mx-auto mb-4 bg-background">
+<div class="border border-primary-container/30 rounded flex items-center focus-within:border-primary-container focus-within:glow-border transition-all duration-300 bg-surface-container-lowest">
+<!-- Attachment Button -->
+<button class="p-3 text-primary-container/50 hover:text-primary-container transition-colors flex-shrink-0">
+<span class="material-symbols-outlined">attach_file</span>
+</button>
+<!-- Input Field -->
+<input class="flex-1 bg-transparent border-none focus:ring-0 text-on-surface font-code text-body-md placeholder:text-primary-container/30 placeholder:font-code px-2 outline-none h-full py-4" placeholder="Type a message..." type="text"/>
+<!-- Send Button -->
+<button class="m-1 w-10 h-10 border border-primary-container/30 flex items-center justify-center text-primary-container hover:bg-primary-container/10 hover:border-primary-container transition-all group flex-shrink-0 bg-surface-dim">
+<span class="material-symbols-outlined group-hover:drop-shadow-[0_0_5px_#4fd1c5] transition-all">send</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar (Shared Component) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 bg-black border-t border-[#4fd1c5]/30 px-4 pb-safe flat shadow-[0_-4px_10px_rgba(79,209,197,0.1)] md:hidden">
+<!-- INACTIVE: HERMES -->
+<a class="flex flex-col items-center justify-center text-[#4fd1c5]/30 p-2 hover:text-[#4fd1c5]/60 hover:drop-shadow-[0_0_2px_#4fd1c5]" href="#">
+<span class="material-symbols-outlined mb-1">memory</span>
+<span class="font-['Space_Grotesk'] text-[10px] uppercase font-bold tracking-tighter">HERMES</span>
+</a>
+<!-- ACTIVE: CHAT -->
+<a class="flex flex-col items-center justify-center text-[#4fd1c5] drop-shadow-[0_0_10px_#4fd1c5] scale-110 p-2 border-b-2 border-[#4fd1c5] transition-transform" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+<span class="font-['Space_Grotesk'] text-[10px] uppercase font-bold tracking-tighter">CHAT</span>
+</a>
+<!-- INACTIVE: SETTINGS -->
+<a class="flex flex-col items-center justify-center text-[#4fd1c5]/30 p-2 hover:text-[#4fd1c5]/60 hover:drop-shadow-[0_0_2px_#4fd1c5]" href="#">
+<span class="material-symbols-outlined mb-1">settings_slow_motion</span>
+<span class="font-['Space_Grotesk'] text-[10px] uppercase font-bold tracking-tighter">SETTINGS</span>
+</a>
+</nav>
+</body></html>
