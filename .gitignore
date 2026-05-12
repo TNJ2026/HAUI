@@ -19,3 +19,4 @@ design/
 .idea/
 **/build/
 app/pro/
+app/prod/
