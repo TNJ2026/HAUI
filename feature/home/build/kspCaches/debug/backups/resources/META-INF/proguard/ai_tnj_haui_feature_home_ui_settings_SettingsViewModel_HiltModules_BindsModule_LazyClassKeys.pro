@@ -1,1 +1,0 @@
--keep,allowobfuscation,allowshrinking class ai.tnj.haui.feature.home.ui.settings.SettingsViewModel
