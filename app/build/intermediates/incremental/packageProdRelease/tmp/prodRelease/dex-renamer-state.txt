@@ -1,4 +1,0 @@
-#Tue May 12 11:28:25 CST 2026
-base.0=/Users/cxd/Documents/Dev/Gemini/HAUI/app/build/intermediates/dex/prodRelease/minifyProdReleaseWithR8/classes.dex
-path.0=classes.dex
-renamed.0=classes.dex
