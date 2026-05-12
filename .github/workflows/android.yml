@@ -25,11 +25,11 @@ jobs:
       - uses: gradle/gradle-build-action@v2
         with:
           gradle-version: current
-          arguments: assembleProdRelease
+          arguments: assembleRelease
       - uses: r0adkll/sign-android-release@v1
         id: sign_app
         with:
-          releaseDirectory: app/prod/release
+          releaseDirectory: app/build/outputs/apk/release
           signingKeyBase64: ${{ secrets.SIGNING_KEYSTORE }}
           alias: ${{ secrets.SIGNING_KEY_ALIAS }}
           keyStorePassword: ${{ secrets.SIGNING_STORE_PASSWORD }}
