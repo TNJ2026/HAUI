@@ -88,7 +88,8 @@ fun ChatMessageListCard(
 
             items(
                 items = displayMessages,
-                key = { it.id }
+                key = { it.id },
+                contentType = { it.role }
             ) { message ->
                 ChatMessageBubble(message = message)
             }

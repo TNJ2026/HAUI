@@ -48,7 +48,7 @@ import org.intellij.markdown.flavours.gfm.GFMElementTypes
 import org.intellij.markdown.flavours.gfm.GFMTokenTypes
 
 @Composable
-fun ChatMarkdown(text: String, textColor: Color) {
+fun ChatMarkdown(text: String, textColor: Color, isStreaming: Boolean = false) {
     val typography = markdownTypography()
     val components = remember(textColor) {
         markdownComponents(
@@ -68,15 +68,28 @@ fun ChatMarkdown(text: String, textColor: Color) {
         )
     }
 
-    SelectionContainer(modifier = Modifier.fillMaxWidth()) {
+    val colors = markdownColor(text = textColor)
+
+    if (isStreaming) {
         Markdown(
             content = text,
-            colors = markdownColor(text = textColor),
+            colors = colors,
             typography = typography,
             modifier = Modifier.fillMaxWidth(),
             imageTransformer = Coil3ImageTransformerImpl,
             components = components,
         )
+    } else {
+        SelectionContainer(modifier = Modifier.fillMaxWidth()) {
+            Markdown(
+                content = text,
+                colors = colors,
+                typography = typography,
+                modifier = Modifier.fillMaxWidth(),
+                imageTransformer = Coil3ImageTransformerImpl,
+                components = components,
+            )
+        }
     }
 }
 
@@ -97,7 +110,7 @@ private fun ChatMarkdownTable(content: String, node: ASTNode, textColor: Color) 
 
     val scrollState = rememberScrollState()
     val primaryColor = MaterialTheme.colorScheme.primary
-    val dividerColor = primaryColor.copy(alpha = 0.2f)
+    val dividerColor = remember(primaryColor) { primaryColor.copy(alpha = 0.2f) }
     val strokePx = with(LocalDensity.current) { 1.dp.toPx() }
     
     val baseBodyStyle = MaterialTheme.typography.bodyMedium
@@ -164,8 +177,8 @@ private fun ChatMarkdownTable(content: String, node: ASTNode, textColor: Color) 
                                 content = content,
                                 cell = cell,
                                 style = if (isHeader) headerStyle else bodyStyle,
-                                maxLines = Int.MAX_VALUE,
-                                overflow = TextOverflow.Clip,
+                                maxLines = 10,
+                                overflow = TextOverflow.Ellipsis,
                             )
                         }
                     }

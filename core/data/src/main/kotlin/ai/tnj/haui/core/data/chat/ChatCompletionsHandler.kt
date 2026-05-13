@@ -107,14 +107,15 @@ class ChatCompletionsHandler(
         if (text.isBlank()) return
         if (store.contains(messageData.id)) {
             val oldMessage = store.find(messageData.id) ?: return
-            sink.onMessageUpdate(oldMessage.copy(text = oldMessage.text + text))
+            sink.onMessageUpdate(oldMessage.copy(text = oldMessage.text + text, isGenerating = true))
         } else {
             currentMsgId = messageData.id
             val message = ChatMessage(
                 id = messageData.id,
                 role = MessageRole.ASSISTANT,
                 type = ChatMessageType.Text,
-                text = text
+                text = text,
+                isGenerating = true
             )
             sink.onNewMessage(message)
         }

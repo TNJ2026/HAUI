@@ -111,11 +111,12 @@ class ChatRunsHandler(
     private fun handleOtherMessage(messageData: HermesMessageData) {
         val currentMsg = store.find(currentMsgId)
         if (currentMsg == null) {
-            addMessage(currentMsgId, messageData)
+            addMessage(currentMsgId, messageData, isGenerating = true)
             return
         }
-        sink.onMessageUpdate(currentMsg.copy(text = messageData.displayText()))
-        if (messageData.event == HermesChatMsgEvent.Completed.eventName) {
+        val isCompleted = messageData.event == HermesChatMsgEvent.Completed.eventName
+        sink.onMessageUpdate(currentMsg.copy(text = messageData.displayText(), isGenerating = !isCompleted))
+        if (isCompleted) {
             currentMsgId = ""
         }
     }
@@ -123,12 +124,12 @@ class ChatRunsHandler(
     private fun handleDeltaMessage(messageData: HermesMessageData) {
         if (currentMsgId.isEmpty()) {
             currentMsgId = UUID.randomUUID().toString()
-            addMessage(currentMsgId, messageData)
+            addMessage(currentMsgId, messageData, isGenerating = true)
             return
         }
         val currentMsg = store.find(currentMsgId)
         if (currentMsg != null) {
-            sink.onMessageUpdate(currentMsg.copy(text =  currentMsg.text + messageData.displayText()))
+            sink.onMessageUpdate(currentMsg.copy(text = currentMsg.text + messageData.displayText(), isGenerating = true))
         }
     }
 
@@ -139,7 +140,8 @@ class ChatRunsHandler(
                 id = currentToolMsgId,
                 role = MessageRole.TOOL,
                 type = ChatMessageType.Text,
-                text = messageData.displayText()
+                text = messageData.displayText(),
+                isGenerating = true
             )
             val index = store.indexOf(currentMsgId)
             if (index == -1) {
@@ -150,20 +152,22 @@ class ChatRunsHandler(
             return
         }
         val currentMsg = store.find(currentToolMsgId)
+        val isCompleted = messageData.event == HermesChatMsgEvent.ToolsCompleted.eventName
         if (currentMsg != null) {
-           sink.onMessageUpdate(currentMsg.copy(text = currentMsg.text + messageData.displayText()))
+           sink.onMessageUpdate(currentMsg.copy(text = currentMsg.text + messageData.displayText(), isGenerating = !isCompleted))
         }
-        if (messageData.event == HermesChatMsgEvent.ToolsCompleted.eventName) {
+        if (isCompleted) {
             currentToolMsgId = ""
         }
     }
 
-    private fun addMessage(id: String, messageData: HermesMessageData) {
+    private fun addMessage(id: String, messageData: HermesMessageData, isGenerating: Boolean = false) {
         val message = ChatMessage(
             id = id,
             role = MessageRole.ASSISTANT,
             type = ChatMessageType.Text,
-            text = messageData.displayText()
+            text = messageData.displayText(),
+            isGenerating = isGenerating
         )
         sink.onNewMessage(message)
     }

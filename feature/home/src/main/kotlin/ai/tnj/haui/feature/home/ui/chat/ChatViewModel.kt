@@ -24,6 +24,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -32,6 +33,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -60,7 +62,9 @@ class ChatViewModel @Inject constructor(
 
     private val _internalState = MutableStateFlow(InternalChatState())
     
+    @OptIn(FlowPreview::class)
     val uiState: StateFlow<ChatUiState> = _internalState
+        .sample(50L)
         .map { s ->
             ChatUiState.ChatUIData(
                 messages = s.messages,
@@ -126,7 +130,13 @@ class ChatViewModel @Inject constructor(
         }
 
         override fun onMessageEnd() {
-            _internalState.update { it.copy(hasPendingRun = false, showTypingIndicator = false) }
+            _internalState.update { it.copy(
+                hasPendingRun = false, 
+                showTypingIndicator = false,
+                messages = it.messages.map { msg -> 
+                    if (msg.isGenerating) msg.copy(isGenerating = false) else msg 
+                }
+            ) }
             persistCurrentConversation()
         }
 

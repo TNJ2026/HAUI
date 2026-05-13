@@ -9,7 +9,8 @@ data class ChatMessage(
     val text: String,
     val imageUri: Uri? = null,
     val mimeType: String? = null,
-    val fileName: String? = null
+    val fileName: String? = null,
+    val isGenerating: Boolean = false
 )
 
 enum class ChatMessageType {

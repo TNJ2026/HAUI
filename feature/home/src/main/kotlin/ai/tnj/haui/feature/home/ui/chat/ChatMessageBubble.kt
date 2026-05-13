@@ -226,12 +226,17 @@ private fun ChatMessageBody(msg: ChatMessage, textColor: Color) {
                         if (lines.size > 1) {
                             ChatMarkdown(
                                 text = remember(lines) { lines.drop(1).joinToString("\n") },
-                                textColor = textColor
+                                textColor = textColor,
+                                isStreaming = msg.isGenerating
                             )
                         }
                     }
                 } else {
-                    ChatMarkdown(text = text, textColor = textColor)
+                    ChatMarkdown(
+                        text = text, 
+                        textColor = textColor,
+                        isStreaming = msg.isGenerating
+                    )
                 }
             }
             ChatMessageType.Image -> {
