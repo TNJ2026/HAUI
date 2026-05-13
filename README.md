@@ -1,61 +1,61 @@
 # HAUI · Hermes Android UI
 
-> Hermes AI 服务端的 Android 客户端。Jetpack Compose + 多模块 MVVM，提供对 Hermes 的对话、运行编排（Runs）、健康监控与计划任务（Jobs）管理。
+> Android client for the Hermes AI server. Built with Jetpack Compose and a multi-module MVVM architecture, it provides chat, workflow orchestration (Runs), health monitoring, and scheduled task (Jobs) management for Hermes.
 
 [![Android CI](https://github.com/TNJ2026/HAUI/actions/workflows/android.yml/badge.svg)](.github/workflows/android.yml)
 
 ---
 
-## ✨ 功能速览
+## ✨ Features at a Glance
 
-- **AGENT Tab** — 连接配置、健康检查（30s 节流）、模型列表
-- **CHAT Tab** — 双协议对话：
-  - `CHAT_COMPLETIONS`：`POST v1/chat/completions`（SSE 流）
-  - `RUN`：`POST v1/runs` + `GET v1/runs/{id}/events`（SSE 流）
-- **SETTINGS Tab** — 主题切换、协议切换、工具气泡开关、Hermes Jobs 管理
-- 复古终端美学（CRT 栅格背景、Monospace 字体、方形进度指示器）
-- Room 聊天历史 + Markdown 渲染（GFM 表格自定义实现）
+- **AGENT Tab** — Connection configuration, health checks (30s throttling), and model list.
+- **CHAT Tab** — Dual-protocol chat:
+  - `CHAT_COMPLETIONS`: `POST v1/chat/completions` (SSE stream).
+  - `RUN`: `POST v1/runs` + `GET v1/runs/{id}/events` (SSE stream).
+- **SETTINGS Tab** — Theme switching, protocol switching, tool bubble toggle, and Hermes Jobs management.
+- Retro terminal aesthetics (CRT raster background, Monospace fonts, square progress indicators).
+- Room-based chat history + Markdown rendering (with custom GFM table implementation).
 
-详细功能清单见 [`docs/FEATURES.md`](docs/FEATURES.md)。
+For a detailed feature list, see [`docs/FEATURES.md`](docs/FEATURES.md).
 
 ---
 
-## 🧱 技术栈
+## 🧱 Tech Stack
 
-| 维度 | 选型 |
+| Category | Technology |
 | --- | --- |
-| 语言 / JDK | Kotlin 2.3 / JDK 17 |
-| UI | Jetpack Compose + Material 3（Compose BOM 管理版本） |
-| 架构 | 多模块 MVVM、StateFlow 单一可信源 |
+| Language / JDK | Kotlin 2.3 / JDK 17 |
+| UI | Jetpack Compose + Material 3 (Managed via Compose BOM) |
+| Architecture | Multi-module MVVM, StateFlow as Single Source of Truth |
 | DI | Hilt 2.59 |
-| 网络 | Retrofit 3 + OkHttp 5 + okhttp-sse + kotlinx.serialization |
-| 异步 | Kotlin Coroutines + Flow |
-| 本地存储 | DataStore Preferences + Room 2.8 |
-| Markdown | mikepenz/multiplatform-markdown-renderer + 自定义 GFM 表格 |
-| 图片加载 | Coil 3 |
-| 测试 | Kotest 6 + Turbine + MockWebServer |
+| Networking | Retrofit 3 + OkHttp 5 + okhttp-sse + kotlinx.serialization |
+| Concurrency | Kotlin Coroutines + Flow |
+| Storage | DataStore Preferences + Room 2.8 |
+| Markdown | mikepenz/multiplatform-markdown-renderer + Custom GFM Table |
+| Image Loading | Coil 3 |
+| Testing | Kotest 6 + Turbine + MockWebServer |
 
-完整版本表见 [`gradle/libs.versions.toml`](gradle/libs.versions.toml)。
+Full version table: [`gradle/libs.versions.toml`](gradle/libs.versions.toml).
 
 ---
 
-## 📦 模块结构
+## 📦 Module Structure
 
 ```
 HAUI
-├── app                       # 应用入口、Navigation、SplashScreen
+├── app                       # Application entry, Navigation, SplashScreen
 ├── core
-│   ├── model                 # 网络 / DB 共用数据模型（kotlinx-serialization）
-│   ├── network               # Retrofit、OkHttp、SSE 客户端
-│   ├── data                  # Repository、Room、DataStore、Chat 流处理器
-│   ├── ui                    # 可复用 Compose 组件（CommonUi、CRT 背景）
-│   ├── designsystem          # 主题、色板、字体、ThemeController
-│   └── utils                 # 日志、附件、JpegSizeLimiter 等工具
+│   ├── model                 # Shared data models for Network / DB (kotlinx-serialization)
+│   ├── network               # Retrofit, OkHttp, SSE Client
+│   ├── data                  # Repository, Room, DataStore, Chat Stream Processors
+│   ├── ui                    # Reusable Compose components (CommonUi, CRT backgrounds)
+│   ├── designsystem          # Themes, Palettes, Typography, ThemeController
+│   └── utils                 # Utils for Logs, Attachments, JpegSizeLimiter, etc.
 └── feature
-    └── home                  # 首页三 Tab：Agent / Chat / Settings
+    └── home                  # Home screen tabs: Agent / Chat / Settings
 ```
 
-模块依赖图：
+Module Dependency Graph:
 
 ```
 app  ──▶  feature:home  ──▶  core:designsystem
@@ -66,95 +66,95 @@ app  ──▶  feature:home  ──▶  core:designsystem
                           ──▶  core:utils
 ```
 
-各模块的 README 见对应目录下 `README.md`。
+For module-specific details, refer to the `README.md` in each directory.
 
 ---
 
-## 🚀 快速开始
+## 🚀 Getting Started
 
-### 环境要求
+### Prerequisites
 
 - JDK 17
-- Android SDK：`compileSdk = 37`、`minSdk = 31`、`targetSdk = 36`
-- Android Studio Ladybug+（建议）或 IntelliJ IDEA 2025.1+
-- Hermes 后端服务（用于联调）
+- Android SDK: `compileSdk = 37`, `minSdk = 31`, `targetSdk = 36`
+- Android Studio Ladybug+ (Recommended) or IntelliJ IDEA 2025.1+
+- Hermes backend service (for live debugging)
 
-### 克隆并构建
+### Clone and Build
 
 ```bash
 git clone https://github.com/TNJ2026/HAUI.git
 cd HAUI
 
-# 配置 SDK 路径（首次）
+# Configure SDK path (First time only)
 cp local.properties.example local.properties
-# 然后编辑 local.properties 写入本机 sdk.dir
+# Then edit local.properties and set sdk.dir
 
-# Debug APK
+# Build Debug APK
 ./gradlew :app:assembleDebug
 
-# Release APK（需要本地签名配置，见 docs/RELEASE.md）
+# Build Release APK (Requires local signing config, see docs/RELEASE.md)
 ./gradlew :app:assembleRelease
 ```
 
-### 安装到设备
+### Install to Device
 
 ```bash
 ./gradlew :app:installDebug
 ```
 
-### 运行测试
+### Running Tests
 
 ```bash
-./gradlew test            # 全量单元测试（JUnit Platform + Kotest）
+./gradlew test            # All unit tests (JUnit Platform + Kotest)
 ./gradlew :core:network:test
 ```
 
-更详细的构建说明见 [`docs/BUILD.md`](docs/BUILD.md)。
+Detailed build instructions: [`docs/BUILD.md`](docs/BUILD.md).
 
 ---
 
-## 🔌 与 Hermes 服务端联调
+## 🔌 Interfacing with Hermes Server
 
-应用启动后在 **AGENT Tab → 点击 CONNECT** 输入：
+Launch the app and go to **AGENT Tab → Click CONNECT**, then enter:
 
-| 字段 | 默认值 | 说明 |
+| Field | Default | Description |
 | --- | --- | --- |
-| host | （无） | Hermes 服务地址，需合法 IPv4 |
-| port | `8642` | 服务端口 |
-| apiKey | （可选） | Bearer token |
+| host | (None) | Hermes service address (must be a valid IPv4) |
+| port | `8642` | Service port |
+| apiKey | (Optional) | Bearer token |
 
-连接成功后自动持久化至 DataStore，下次冷启动自动尝试。
+Connections are automatically persisted to DataStore and restored on the next launch.
 
-> ⚠️ `AndroidManifest.xml` 中 `usesCleartextTraffic="true"` 用于支持局域网明文连接；正式上线前应切换为 HTTPS 或通过用户级开关管理。
+> ⚠️ `usesCleartextTraffic="true"` is set in `AndroidManifest.xml` to support local plaintext connections. Switch to HTTPS or manage via a user toggle before production release.
 
-接口契约见 [`docs/API.md`](docs/API.md)。
+API Contract: [`docs/API.md`](docs/API.md).
 
 ---
 
-## 📚 文档索引
+## 📚 Documentation Index
 
-| 文档 | 用途 |
+| Document | Purpose |
 | --- | --- |
-| [`docs/FEATURES.md`](docs/FEATURES.md) | 全功能清单与实现要点 |
-| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | 模块依赖图、SSE 数据流、状态机 |
-| [`docs/API.md`](docs/API.md) | Hermes 服务端接口契约 |
-| [`docs/BUILD.md`](docs/BUILD.md) | 构建命令与环境矩阵 |
-| [`docs/RELEASE.md`](docs/RELEASE.md) | 签名、CI 发布流程 |
-| [`CONTRIBUTING.md`](CONTRIBUTING.md) | 提交、代码风格、PR 流程 |
-| [`CHANGELOG.md`](CHANGELOG.md) | 版本变更记录 |
-| [`CLAUDE.md`](CLAUDE.md) | 给 AI 协作者/新工程师的项目守则 |
+| [`docs/FEATURES.md`](docs/FEATURES.md) | Full feature list and implementation notes |
+| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Dependency graph, SSE data flows, state machines |
+| [`docs/API.md`](docs/API.md) | Hermes server API contract |
+| [`docs/BUILD.md`](docs/BUILD.md) | Build commands and environment matrix |
+| [`docs/RELEASE.md`](docs/RELEASE.md) | Signing and CI release workflow |
+| [`CONTRIBUTING.md`](CONTRIBUTING.md) | Contributions, coding style, PR process |
+| [`CHANGELOG.md`](CHANGELOG.md) | Version history |
+| [`CLAUDE.md`](CLAUDE.md) | Project guidelines for AI collaborators/new engineers |
 
 ---
 
-## 🗺️ 已知限制 / 路线图
+## 🗺️ Known Limitations / Roadmap
 
-- [ ] 增加 build flavors（`dev` / `prod`）以隔离环境
-- [ ] HTTPS 支持与 `usesCleartextTraffic` 的用户级开关
-- [ ] 扩充单元 / UI 测试覆盖
-- [ ] 服务端字段容错与回退展示（Token 用量、Tool 进度、Job 状态）
+- [ ] Add build flavors (`dev` / `prod`) for environment isolation.
+- [ ] HTTPS support and user-level toggle for `usesCleartextTraffic`.
+- [ ] Expand Unit / UI test coverage.
+- [ ] Improved fault tolerance and fallback displays for server fields (Token usage, Tool progress, Job status).
 
 ---
 
 ## 📝 License
 
-本项目采用 [MIT License](LICENSE)。
+This project is licensed under the [MIT License](LICENSE).
