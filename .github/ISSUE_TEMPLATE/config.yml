@@ -2,4 +2,4 @@ blank_issues_enabled: false
 contact_links:
   - name: 安全漏洞披露
     url: https://github.com/TNJ2026/HAUI/security/advisories/new
-    about: 安全相关问题请走私下渠道，参考 SECURITY.md
+    about: 安全相关问题请走私下渠道，使用 GitHub Security Advisories 或邮件联系维护者

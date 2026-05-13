@@ -161,7 +161,7 @@ ChatCompletionsHandler 在收到 SseEvent.Closed 时只 break，
 ## 沟通
 
 - Bug：通过 [Issues](../../issues) 提交，模板见 [`.github/ISSUE_TEMPLATE/`](.github/ISSUE_TEMPLATE)。
-- 安全漏洞：**不要走公开 Issue**，参考 [`SECURITY.md`](SECURITY.md)。
+- 安全漏洞：**不要走公开 Issue**，请使用 GitHub Security Advisories（`Security` → `Report a vulnerability`）或邮件至维护者。
 
 ---
 

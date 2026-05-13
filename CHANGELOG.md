@@ -9,7 +9,7 @@
 
 ### Added
 - 项目级文档体系：`docs/ARCHITECTURE.md`、`docs/API.md`、`docs/BUILD.md`、`docs/RELEASE.md`
-- 治理文件：`LICENSE`（MIT）、`CONTRIBUTING.md`、`SECURITY.md`、`CLAUDE.md`
+- 治理文件：`LICENSE`（MIT）、`CONTRIBUTING.md`、`CLAUDE.md`
 - 各模块 README（`core/*`、`feature/home`）
 - `.github` PR / Issue 模板与 `CODEOWNERS`
 - `local.properties.example`
