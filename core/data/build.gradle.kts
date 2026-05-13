@@ -13,6 +13,16 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+    sourceSets {
+        getByName("androidTest").assets.srcDir("$projectDir/schemas")
+    }
+}
+
+ksp {
+    // Export Room schemas so future Migrations have a known baseline.
+    // Files land under core/data/schemas/<DatabaseClass>/<version>.json
+    // and must be committed alongside any version bump.
+    arg("room.schemaLocation", "$projectDir/schemas")
 }
 
 kotlin {
