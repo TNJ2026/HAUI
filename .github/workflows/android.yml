@@ -22,9 +22,7 @@ jobs:
           fetch-depth: 0
       - name: Get latest tag
         id: get_tag
-        run: echo "tag=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
-      - name: Use it
-        run: echo "Latest tag is ${{ steps.get_tag.outputs.tag }}"  
+        run: echo "tag=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT 
       - uses: actions/setup-java@v3
         with:
           distribution: temurin
@@ -48,4 +46,5 @@ jobs:
         with:
           artifacts: "*.apk"
           token: ${{ github.token }}
+          tag: ${{ steps.get_tag.outputs.tag }}
           generateReleaseNotes: true
