@@ -20,6 +20,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.TextStyle
@@ -30,10 +31,12 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.mikepenz.markdown.annotator.annotatorSettings
+import com.mikepenz.markdown.annotator.buildMarkdownAnnotatedString
 import com.mikepenz.markdown.compose.components.markdownComponents
 import com.mikepenz.markdown.compose.elements.MarkdownCodeBlock
 import com.mikepenz.markdown.compose.elements.MarkdownCodeFence
-import com.mikepenz.markdown.compose.elements.MarkdownTableBasicText
+import com.mikepenz.markdown.compose.elements.material.MarkdownBasicText
 import com.mikepenz.markdown.m3.Markdown
 import com.mikepenz.markdown.m3.markdownColor
 import com.mikepenz.markdown.model.DefaultMarkdownTypography
@@ -90,8 +93,14 @@ fun ChatMarkdown(text: String, textColor: Color, isStreaming: Boolean = false) {
 
 @Composable
 private fun ChatMarkdownTable(content: String, node: ASTNode, textColor: Color) {
-    // 长表格性能：把 AST 拆解一次性缓存，避免每帧重组都跑 filter/getOrNull。
-    val tableData = remember(node) {
+    // 流式拼接时外层 Markdown 每个分片重新解析整段，ChatMarkdownTable 拿到的
+    // ASTNode 都是新实例。但只要 markdown 源里表格区段不变（追加发生在表格之后），
+    // 用表格子串当 signature，下游 remember 全部命中，跳过最贵的 AnnotatedString 构建。
+    val tableSignature = remember(content, node) {
+        content.substring(node.startOffset, node.endOffset)
+    }
+
+    val tableData = remember(tableSignature) {
         val parsedRows = node.children
             .filter { it.type == GFMElementTypes.HEADER || it.type == GFMElementTypes.ROW }
             .map { row ->
@@ -124,6 +133,23 @@ private fun ChatMarkdownTable(content: String, node: ASTNode, textColor: Color) 
         bodyStyle.copy(fontWeight = FontWeight.Bold, color = primaryColor)
     }
 
+    // annotatorSettings() 每次重组返回新实例（含临时 listener lambda），
+    // 但它只在缓存 miss 时被消费；命中时复用旧的 AnnotatedString，不会触发重建。
+    val annotator = annotatorSettings()
+    val annotatedCells: List<List<AnnotatedString>> =
+        remember(tableSignature, bodyStyle, headerStyle) {
+            rows.map { row ->
+                val style = if (row.isHeader) headerStyle else bodyStyle
+                row.cells.map { cell ->
+                    content.buildMarkdownAnnotatedString(
+                        textNode = cell,
+                        style = style,
+                        annotatorSettings = annotator,
+                    )
+                }
+            }
+        }
+
     Column(
         modifier = Modifier
             .padding(vertical = 8.dp)
@@ -134,8 +160,7 @@ private fun ChatMarkdownTable(content: String, node: ASTNode, textColor: Color) 
     ) {
         rows.forEachIndexed { rowIndex, rowData ->
             val isLastRow = rowIndex == rows.lastIndex
-            // 行级 drawBehind 取代每格 drawBehind：N×C 个 lambda → N 个；
-            // 同时去掉 IntrinsicSize.Min + 每格 fillMaxHeight()，单次测量即可。
+            val rowAnnotated = annotatedCells[rowIndex]
             val rowModifier = Modifier
                 .then(
                     if (rowData.isHeader) Modifier.background(headerBg) else Modifier
@@ -162,17 +187,16 @@ private fun ChatMarkdownTable(content: String, node: ASTNode, textColor: Color) 
 
             Row(modifier = rowModifier) {
                 for (index in 0 until maxCols) {
-                    val cell = rowData.cells.getOrNull(index)
+                    val cellText = rowAnnotated.getOrNull(index)
                     Box(
                         modifier = Modifier
                             .width(CellWidth)
                             .padding(horizontal = 12.dp, vertical = 10.dp),
                         contentAlignment = Alignment.CenterStart,
                     ) {
-                        if (cell != null) {
-                            MarkdownTableBasicText(
-                                content = content,
-                                cell = cell,
+                        if (cellText != null) {
+                            MarkdownBasicText(
+                                text = cellText,
                                 style = if (rowData.isHeader) headerStyle else bodyStyle,
                                 maxLines = 10,
                                 overflow = TextOverflow.Ellipsis,
