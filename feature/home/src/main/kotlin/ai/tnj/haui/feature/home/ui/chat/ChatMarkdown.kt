@@ -170,7 +170,14 @@ private fun ChatMarkdownTable(content: String, node: ASTNode, textColor: Color) 
         TableData(rows = parsedRows, maxCols = cols)
     }
     val rows = tableData.rows
-    if (rows.isEmpty()) return
+    if (rows.isEmpty()) {
+        // 表格残缺(LLM 中途断流 / 仅分隔行)时回落到原始 monospace 输出，
+        // 避免 ChatMarkdownTable 发射 0 高度节点 —— 否则从流式简化视图
+        // 切换到最终视图时，AnimatedContent 的 SizeTransform 会把高度
+        // 从"原始文本高度"补间到 0，观感像表格被吸进去。
+        StreamingRawBlock(content = content, node = node, textColor = textColor)
+        return
+    }
     val maxCols = tableData.maxCols
 
     val scrollState = rememberScrollState()
