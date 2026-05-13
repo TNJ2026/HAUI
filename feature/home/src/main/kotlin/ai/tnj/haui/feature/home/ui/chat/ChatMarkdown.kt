@@ -1,5 +1,11 @@
 package ai.tnj.haui.feature.home.ui.chat
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.SizeTransform
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.horizontalScroll
@@ -10,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -41,6 +48,7 @@ import com.mikepenz.markdown.m3.Markdown
 import com.mikepenz.markdown.m3.markdownColor
 import com.mikepenz.markdown.model.DefaultMarkdownTypography
 import com.mikepenz.markdown.model.MarkdownTypography
+import com.mikepenz.markdown.model.NoOpImageTransformerImpl
 import org.intellij.markdown.ast.ASTNode
 import org.intellij.markdown.flavours.gfm.GFMElementTypes
 import org.intellij.markdown.flavours.gfm.GFMTokenTypes
@@ -48,47 +56,96 @@ import org.intellij.markdown.flavours.gfm.GFMTokenTypes
 @Composable
 fun ChatMarkdown(text: String, textColor: Color, isStreaming: Boolean = false) {
     val typography = markdownTypography()
-    val components = remember(textColor) {
-        markdownComponents(
-            codeFence = { model ->
-                MarkdownCodeFence(model.content, model.node) { code, language, _ ->
-                    ChatCodeBlock(code = code, language = language?.trim()?.ifEmpty { null })
-                }
-            },
-            codeBlock = { model ->
-                MarkdownCodeBlock(model.content, model.node) { code, _, _ ->
-                    ChatCodeBlock(code = code, language = null)
-                }
-            },
-            table = { model ->
-                ChatMarkdownTable(content = model.content, node = model.node, textColor = textColor)
-            }
-        )
-    }
-
     val colors = markdownColor(text = textColor)
 
-    if (isStreaming) {
-        Markdown(
-            content = text,
-            colors = colors,
-            typography = typography,
-            modifier = Modifier.fillMaxWidth(),
-            imageTransformer = FixedHeightMarkdownImageTransformer,
-            components = components,
-        )
-    } else {
-        SelectionContainer(modifier = Modifier.fillMaxWidth()) {
+    // 流式期间 targetState 稳定为 true，AnimatedContent 不会触发动画，
+    // 只在 isStreaming 翻转到 false 的瞬间做一次过渡：
+    // 旧的极简 monospace 视图淡出 + 新的完整渲染淡入 (250ms)，
+    // 同时容器高度通过 SizeTransform 平滑变形 (300ms)，
+    // 避免最终渲染(表格/代码块)尺寸不一致导致的硬切+顶撑下方气泡。
+    AnimatedContent(
+        targetState = isStreaming,
+        transitionSpec = {
+            (fadeIn(animationSpec = tween(durationMillis = 250)) togetherWith
+                fadeOut(animationSpec = tween(durationMillis = 250)))
+                .using(SizeTransform(clip = false) { _, _ -> tween(durationMillis = 300) })
+        },
+        label = "ChatMarkdownMode",
+        modifier = Modifier.fillMaxWidth(),
+    ) { streaming ->
+        if (streaming) {
+            // 极简组件：表格/代码块/图片全部跳过昂贵渲染，原样输出 markdown 源到
+            // monospace 文本。视觉上像终端打字机回显，契合 retro CRT 美学。
+            val streamingComponents = remember(textColor) {
+                markdownComponents(
+                    codeFence = { model ->
+                        StreamingRawBlock(model.content, model.node, textColor)
+                    },
+                    codeBlock = { model ->
+                        StreamingRawBlock(model.content, model.node, textColor)
+                    },
+                    table = { model ->
+                        StreamingRawBlock(model.content, model.node, textColor)
+                    },
+                )
+            }
             Markdown(
                 content = text,
                 colors = colors,
                 typography = typography,
                 modifier = Modifier.fillMaxWidth(),
-                imageTransformer = FixedHeightMarkdownImageTransformer,
-                components = components,
+                imageTransformer = StreamingNoOpImageTransformer,
+                components = streamingComponents,
             )
+        } else {
+            val components = remember(textColor) {
+                markdownComponents(
+                    codeFence = { model ->
+                        MarkdownCodeFence(model.content, model.node) { code, language, _ ->
+                            ChatCodeBlock(code = code, language = language?.trim()?.ifEmpty { null })
+                        }
+                    },
+                    codeBlock = { model ->
+                        MarkdownCodeBlock(model.content, model.node) { code, _, _ ->
+                            ChatCodeBlock(code = code, language = null)
+                        }
+                    },
+                    table = { model ->
+                        ChatMarkdownTable(content = model.content, node = model.node, textColor = textColor)
+                    }
+                )
+            }
+            SelectionContainer(modifier = Modifier.fillMaxWidth()) {
+                Markdown(
+                    content = text,
+                    colors = colors,
+                    typography = typography,
+                    modifier = Modifier.fillMaxWidth(),
+                    imageTransformer = FixedHeightMarkdownImageTransformer,
+                    components = components,
+                )
+            }
         }
     }
+}
+
+private val StreamingNoOpImageTransformer = NoOpImageTransformerImpl()
+
+@Composable
+private fun StreamingRawBlock(content: String, node: ASTNode, textColor: Color) {
+    val raw = remember(content, node) {
+        content.substring(node.startOffset, node.endOffset)
+    }
+    BasicText(
+        text = raw,
+        style = MaterialTheme.typography.bodySmall.copy(
+            fontFamily = FontFamily.Monospace,
+            color = textColor,
+        ),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp),
+    )
 }
 
 @Composable
