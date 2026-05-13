@@ -5,17 +5,13 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -34,7 +30,6 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.mikepenz.markdown.coil3.Coil3ImageTransformerImpl
 import com.mikepenz.markdown.compose.components.markdownComponents
 import com.mikepenz.markdown.compose.elements.MarkdownCodeBlock
 import com.mikepenz.markdown.compose.elements.MarkdownCodeFence
@@ -76,7 +71,7 @@ fun ChatMarkdown(text: String, textColor: Color, isStreaming: Boolean = false) {
             colors = colors,
             typography = typography,
             modifier = Modifier.fillMaxWidth(),
-            imageTransformer = Coil3ImageTransformerImpl,
+            imageTransformer = FixedHeightMarkdownImageTransformer,
             components = components,
         )
     } else {
@@ -86,7 +81,7 @@ fun ChatMarkdown(text: String, textColor: Color, isStreaming: Boolean = false) {
                 colors = colors,
                 typography = typography,
                 modifier = Modifier.fillMaxWidth(),
-                imageTransformer = Coil3ImageTransformerImpl,
+                imageTransformer = FixedHeightMarkdownImageTransformer,
                 components = components,
             )
         }
@@ -95,88 +90,90 @@ fun ChatMarkdown(text: String, textColor: Color, isStreaming: Boolean = false) {
 
 @Composable
 private fun ChatMarkdownTable(content: String, node: ASTNode, textColor: Color) {
-    val rows = remember(node) {
-        node.children.filter {
-            it.type == GFMElementTypes.HEADER || it.type == GFMElementTypes.ROW
-        }
+    // 长表格性能：把 AST 拆解一次性缓存，避免每帧重组都跑 filter/getOrNull。
+    val tableData = remember(node) {
+        val parsedRows = node.children
+            .filter { it.type == GFMElementTypes.HEADER || it.type == GFMElementTypes.ROW }
+            .map { row ->
+                TableRowData(
+                    cells = row.children.filter { it.type == GFMTokenTypes.CELL },
+                    isHeader = row.type == GFMElementTypes.HEADER,
+                )
+            }
+        val cols = parsedRows.maxOfOrNull { it.cells.size }?.coerceAtLeast(1) ?: 1
+        TableData(rows = parsedRows, maxCols = cols)
     }
+    val rows = tableData.rows
     if (rows.isEmpty()) return
-
-    val maxCols = remember(rows) {
-        rows.maxOf { row ->
-            row.children.count { it.type == GFMTokenTypes.CELL }
-        }.coerceAtLeast(1)
-    }
+    val maxCols = tableData.maxCols
 
     val scrollState = rememberScrollState()
     val primaryColor = MaterialTheme.colorScheme.primary
     val dividerColor = remember(primaryColor) { primaryColor.copy(alpha = 0.2f) }
-    val strokePx = with(LocalDensity.current) { 1.dp.toPx() }
-    
+    val headerBg = remember(primaryColor) { primaryColor.copy(alpha = 0.05f) }
+    val density = LocalDensity.current
+    val strokePx = remember(density) { with(density) { 1.dp.toPx() } }
+    val cellWidthPx = remember(density) { with(density) { CellWidth.toPx() } }
+    val tableWidth = remember(maxCols) { CellWidth * maxCols }
+
     val baseBodyStyle = MaterialTheme.typography.bodyMedium
-    val bodyStyle = remember(textColor, baseBodyStyle) { 
-        baseBodyStyle.copy(color = textColor) 
+    val bodyStyle = remember(textColor, baseBodyStyle) {
+        baseBodyStyle.copy(color = textColor)
     }
-    val headerStyle = remember(bodyStyle, primaryColor) { 
-        bodyStyle.copy(fontWeight = FontWeight.Bold, color = primaryColor) 
+    val headerStyle = remember(bodyStyle, primaryColor) {
+        bodyStyle.copy(fontWeight = FontWeight.Bold, color = primaryColor)
     }
 
     Column(
         modifier = Modifier
             .padding(vertical = 8.dp)
             .horizontalScroll(scrollState)
+            .width(tableWidth)
             .background(MaterialTheme.colorScheme.surfaceContainerLow.copy(alpha = 0.3f))
             .border(1.dp, dividerColor)
     ) {
-        rows.forEachIndexed { rowIndex, row ->
-            val isHeader = row.type == GFMElementTypes.HEADER
+        rows.forEachIndexed { rowIndex, rowData ->
             val isLastRow = rowIndex == rows.lastIndex
-            val cells = row.children.filter { it.type == GFMTokenTypes.CELL }
-            
-            Row(
-                modifier = Modifier
-                    .height(IntrinsicSize.Min)
-                    .then(
-                        if (isHeader) Modifier.background(primaryColor.copy(alpha = 0.05f))
-                        else Modifier
-                    )
-            ) {
+            // 行级 drawBehind 取代每格 drawBehind：N×C 个 lambda → N 个；
+            // 同时去掉 IntrinsicSize.Min + 每格 fillMaxHeight()，单次测量即可。
+            val rowModifier = Modifier
+                .then(
+                    if (rowData.isHeader) Modifier.background(headerBg) else Modifier
+                )
+                .drawBehind {
+                    for (col in 1 until maxCols) {
+                        val x = cellWidthPx * col
+                        drawLine(
+                            color = dividerColor,
+                            start = Offset(x, 0f),
+                            end = Offset(x, size.height),
+                            strokeWidth = strokePx,
+                        )
+                    }
+                    if (!isLastRow) {
+                        drawLine(
+                            color = dividerColor,
+                            start = Offset(0f, size.height),
+                            end = Offset(size.width, size.height),
+                            strokeWidth = strokePx,
+                        )
+                    }
+                }
+
+            Row(modifier = rowModifier) {
                 for (index in 0 until maxCols) {
-                    val isLastCol = index == maxCols - 1
-                    val cell = cells.getOrNull(index)
-                    
+                    val cell = rowData.cells.getOrNull(index)
                     Box(
                         modifier = Modifier
-                            .width(140.dp)
-                            .fillMaxHeight()
-                            .drawBehind {
-                                // Right vertical divider
-                                if (!isLastCol) {
-                                    drawLine(
-                                        color = dividerColor,
-                                        start = Offset(size.width, 0f),
-                                        end = Offset(size.width, size.height),
-                                        strokeWidth = strokePx
-                                    )
-                                }
-                                // Bottom horizontal divider
-                                if (!isLastRow) {
-                                    drawLine(
-                                        color = dividerColor,
-                                        start = Offset(0f, size.height),
-                                        end = Offset(size.width, size.height),
-                                        strokeWidth = strokePx
-                                    )
-                                }
-                            }
+                            .width(CellWidth)
                             .padding(horizontal = 12.dp, vertical = 10.dp),
-                        contentAlignment = Alignment.CenterStart
+                        contentAlignment = Alignment.CenterStart,
                     ) {
                         if (cell != null) {
                             MarkdownTableBasicText(
                                 content = content,
                                 cell = cell,
-                                style = if (isHeader) headerStyle else bodyStyle,
+                                style = if (rowData.isHeader) headerStyle else bodyStyle,
                                 maxLines = 10,
                                 overflow = TextOverflow.Ellipsis,
                             )
@@ -187,6 +184,11 @@ private fun ChatMarkdownTable(content: String, node: ASTNode, textColor: Color) 
         }
     }
 }
+
+private val CellWidth = 140.dp
+
+private data class TableRowData(val cells: List<ASTNode>, val isHeader: Boolean)
+private data class TableData(val rows: List<TableRowData>, val maxCols: Int)
 
 @Composable
 fun markdownTypography(
