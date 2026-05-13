@@ -1,0 +1,26 @@
+# CODEOWNERS — 自动指定 review 人。
+# 语法：<glob>  <@user1> <@user2>
+#
+# 顺序：后匹配的规则覆盖前面的。
+# 文档：https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# 默认 owner
+*                           @TNJ2026
+
+# 文档（任何人可改，但 owner 仍要 review）
+/docs/                      @TNJ2026
+/*.md                       @TNJ2026
+
+# 构建 / CI 改动需谨慎
+/.github/                   @TNJ2026
+/gradle/                    @TNJ2026
+**/build.gradle.kts         @TNJ2026
+/settings.gradle.kts        @TNJ2026
+/app/proguard-rules.pro     @TNJ2026
+
+# 模型契约 — 与服务端强相关，改动影响面大
+/core/model/                @TNJ2026
+/docs/API.md                @TNJ2026
+
+# Room schema — 数据持久化兼容性
+/core/data/src/main/kotlin/ai/tnj/haui/core/data/db/  @TNJ2026

@@ -14,7 +14,6 @@
 .cxx
 local.properties
 app/build/
-docs/
 design/
 .idea/
 **/build/
