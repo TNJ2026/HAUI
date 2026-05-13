@@ -30,6 +30,7 @@ espressoCore = "3.7.0"
 appcompat = "1.7.1"
 coil = "3.4.0"
 compose-shimmer = "1.4.0"
+mockk = "1.13.17"
 
 [libraries]
 # Compose BOM
@@ -81,6 +82,7 @@ markdown-renderer-coil3 = { group = "com.mikepenz", name = "multiplatform-markdo
 # Testing
 kotest-runner = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
 kotest-assertions = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

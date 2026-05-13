@@ -1,15 +1,12 @@
 package ai.tnj.haui.core.data
 
-import android.content.Context
+import ai.tnj.haui.core.data.di.ApplicationScope
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -19,15 +16,11 @@ import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 import javax.inject.Singleton
 
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "HAUI_Data_Store")
-
 @Singleton
 class LocalDataStore @Inject constructor(
-    @ApplicationContext context: Context,
+    private val dataStore: DataStore<Preferences>,
+    @ApplicationScope private val scope: CoroutineScope,
 ) {
-    private val dataStore = context.dataStore
-
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     companion object {
         private val HOST_KEY = stringPreferencesKey("server.host")
